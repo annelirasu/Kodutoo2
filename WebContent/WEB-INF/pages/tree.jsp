@@ -7,8 +7,12 @@
 </head>
 <body>
 <p>Tervitus jsp-st!</p>
-<c:forEach var="each" items="${personRows}"> 
+<!--<c:forEach var="each" items="${personRows}"> 
 	<span style="padding-left:${each.level}0px"></span><c:out value="${each.name}"></c:out><br>
+</c:forEach> -->
+<c:forEach var="each" items="${admLiigid}"> 
+	<c:out value="${each.nimetus}"></c:out><br>
 </c:forEach>
+
 </body>
 </html>
