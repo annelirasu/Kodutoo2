@@ -2,18 +2,13 @@ package p4.controller;
 
 
 import java.util.List;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-//import p4.dao.PersonDao;
-import p4.domain.InsertTestData;
-
-import p4.view.*;
 import p4.dao.*;
+import p4.domain.InsertTestData;
+import p4.view.*;
 
 @Controller
 public class TreeController {
