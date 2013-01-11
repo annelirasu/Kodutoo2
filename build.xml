@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Kodutoo2" basedir=".">
+    
+    <property name="project.name" value="${ant.project.name}" />
+    <property name="war.file.name" value="${project.name}.war" />
+    <property name="src.dir" location="src" />
+    
+    <property name="build.dir" location="build" />
+    <property name="web.dir" location="WebContent" />
+    <property name="lib.dir" location="${web.dir}/WEB-INF/lib" />
+    <property name="web.xml.file" value="${web.dir}/WEB-INF/web.xml" />
+    <property name="classes.dir" location="${build.dir}/classes" />
+    <property name="store.dir" value="store"/>
+
+    <path id="project.classpath">
+        <fileset dir="${lib.dir}" includes="*.jar" />
+        <!--
+        <fileset dir="${tomcat.home}/bin" includes="*.jar" />
+        <fileset dir="${tomcat.home}/lib" includes="*.jar" />
+        -->
+    </path>
+    
+
+    <target name="init">
+        <mkdir dir="${classes.dir}" />
+    </target>
+    <target name="clean">
+        <delete dir="${build.dir}" />
+    </target>
+
+    <target name="copy.non.java.files">  <!-- selleks, et Hibernate mapping failid jms. kätte saada -->
+        <copy todir="${classes.dir}" includeemptydirs="false">
+            <fileset dir="${src.dir}" excludes="**/*.java" />
+        </copy>
+    </target>
+
+
+    <target name="compile" depends="clean, init, copy.non.java.files">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="project.classpath" />
+    </target>
+    
+    <target name="jar" depends="compile">
+        <jar destfile="${build.dir}/makedb.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="makedb"></attribute>
+            </manifest>
+        </jar>
+    </target>
+    <!--
+    <target name="runmkdb" depends="package-for-store">
+        <java jar="${store.dir}/makedb.jar" fork="true"></java> 
+    </target>
+    -->
+    <target name="war" depends="compile">
+        <delete file="${build.dir}/${war.file.name}" />
+        <war warfile="${build.dir}/${war.file.name}" >
+            <classes dir="${classes.dir}" />
+            <fileset dir="${web.dir}">
+                
+            </fileset>
+            
+        </war>
+    </target>
+    
+    
+    <target name="deploy" depends="war">
+     
+        <property file="kodutoo2.properties" /> <!-- selle sisu on mõlemal erinev, aga failinimi peaks olema sama -->
+        <path id="project.classpath.dep">
+        <fileset dir="${lib.dir}" includes="*.jar" />
+         <fileset dir="${tomcat.home}/bin" includes="*.jar" />
+        <fileset dir="${tomcat.home}/lib" includes="*.jar" />
+        
+    </path>
+        <taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask"
+                 classpathref="project.classpath.dep" />
+        <deploy url="${tomcat.manager.url}" username="${tomcat.manager.user}"
+                password="${tomcat.manager.pass}" path="/${project.name}" 
+                war="file:${build.dir}/${project.name}.war" update="true" />
+        
+    </target>
+    
+    <target name="run" depends="undeploy, deploy"></target>
+    
+
+    <target name="stop" description="stop application in tomcat">
+        <stop url="${tomcat.manager.url}" username="${tomcat.manager.user}"
+                      password="${tomcat.manager.password}" path="/${project.name}" />
+    </target>
+
+    <target name="start" description="start application in tomcat">
+        <start url="${tomcat.manager.url}" username="${tomcat.manager.username}"
+                       password="${tomcat.manager.password}" path="/${project.name}" />
+        <classpath refid="project.classpath" />
+    </target>
+    
+    
+    
+    <target name="undeploy" description="Undeploy web application">
+        <property file="kodutoo2.properties" /> <!-- selle sisu on mõlemal erinev, aga failinimi peaks olema sama -->
+<path id="project.classpath.dep">
+        <fileset dir="${lib.dir}" includes="*.jar" />
+         <fileset dir="${tomcat.home}/bin" includes="*.jar" />
+        <fileset dir="${tomcat.home}/lib" includes="*.jar" />
+        
+    </path>
+        <taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask"
+                 classpathref="project.classpath.dep" />
+    <undeploy failonerror="no" url="${tomcat.manager.url}" username="${tomcat.manager.user}" password="${tomcat.manager.pass}"
+            path="/${project.name}" />
+   </target>
+    
+</project>
