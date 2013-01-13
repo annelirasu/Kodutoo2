@@ -15,12 +15,12 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class AdminYksLiik {
-	
+
 	@Id
 	@GeneratedValue
 	@Column(name = "admYksLiik_id")
 	private Long id;  
-	
+
 	private String kood; 
 	private String nimetus;
 	private String kommentaar;
@@ -30,31 +30,31 @@ public class AdminYksLiik {
 	private String muudetud;
 	private String sulgeja;
 	private String suletud;
-	
+
 	public AdminYksLiik() {
 
 	}
-	
+
 	   @ManyToMany
 	    @JoinTable(
 	            name="VoimalikAlluvus",
 	            joinColumns={@JoinColumn(name="ylem_id", referencedColumnName="admYksLiik_id")},
 	            inverseJoinColumns={@JoinColumn(name="alluv_id", referencedColumnName="admYksLiik_id")})
 	    private Collection<AdminYksLiik> subordinates;
-	
+
            //seos liigi ja üksuse vahel
            @OneToMany(mappedBy="admykId")
            private Collection<AdminYksus> aYs; 
            public Collection<AdminYksus> getAys() { return aYs; }
-	
+
 
 	@Override
 		public String toString() {
 		return  nimetus ;
 		}  
-	
+
 	//getters-setters
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -115,7 +115,7 @@ public class AdminYksLiik {
 	public void setSuletud(String suletud) {
 		this.suletud = suletud;
 	}
-	
+
 	 public Collection<AdminYksLiik> getSubordinates() {
 		return subordinates;
 	}
