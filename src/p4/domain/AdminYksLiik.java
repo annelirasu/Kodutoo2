@@ -1,6 +1,7 @@
 package p4.domain;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -39,7 +41,11 @@ public class AdminYksLiik {
 	            joinColumns={@JoinColumn(name="ylem_id", referencedColumnName="admYksLiik_id")},
 	            inverseJoinColumns={@JoinColumn(name="alluv_id", referencedColumnName="admYksLiik_id")})
 	    private Collection<AdminYksLiik> subordinates;
-	    
+	
+           //seos liigi ja üksuse vahel
+           @OneToMany(mappedBy="admykId")
+           private Collection<AdminYksus> aYs; 
+           public Collection<AdminYksus> getAys() { return aYs; }
 	
 
 	@Override

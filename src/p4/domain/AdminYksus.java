@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -94,8 +95,9 @@ public class AdminYksus implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date kuni;
-    @Column(name = "riigi_admin_yksuse_lik_id", nullable = false)
-    private Long admykId;
+    
+    @ManyToOne
+     private AdminYksLiik admykId;
 
     public Long getId() {
         return id;
@@ -287,14 +289,14 @@ public class AdminYksus implements Serializable {
     /**
      * @return the admykId
      */
-    public Long getAdmykId() {
+    public AdminYksLiik getAdmykId() {
         return admykId;
     }
 
     /**
      * @param admykId the admykId to set
      */
-    public void setAdmykId(Long admykId) {
+    public void setAdmykId(AdminYksLiik admykId) {
         this.admykId = admykId;
     }
 
@@ -311,4 +313,6 @@ public class AdminYksus implements Serializable {
     public void setAlluvad(Collection<AdminYksus> alluvad) {
         this.alluvad = alluvad;
     }
+
+    
 }
