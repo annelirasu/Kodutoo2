@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,5 +41,17 @@ public class AdminYksLiikDao {
 			aylw.setKommentaar(ayl.getKommentaar());
 			list.add(aylw);
 	  }
+	  
+	  @Transactional
+	    public List<AdminYksLiik> getLiigid(){
+		  
+		  List <AdminYksLiik> liigid  = new ArrayList<AdminYksLiik>();
+		//lisame kõige ette tyhja
+		  liigid.add(new AdminYksLiik());
+		  TypedQuery<AdminYksLiik> query = em.createQuery("select a from AdminYksLiik a", AdminYksLiik.class);
+		  liigid.addAll(query.getResultList());
+		  return liigid;
+	  }
+	  
 
 }
