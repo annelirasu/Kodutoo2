@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -30,12 +31,15 @@ public class AdminYksLiik {
 	private String muudetud;
 	private String sulgeja;
 	private String suletud;
-
+	
+	//ylemuse ID vormilt kinnipüüdmiseks
+	private Long yl_id;
+	
 	public AdminYksLiik() {
 
 	}
 
-	   @ManyToMany
+	   @ManyToMany(fetch = FetchType.EAGER)
 	    @JoinTable(
 	            name="VoimalikAlluvus",
 	            joinColumns={@JoinColumn(name="ylem_id", referencedColumnName="admYksLiik_id")},
@@ -122,6 +126,16 @@ public class AdminYksLiik {
 
 	public void setSubordinates(Collection<AdminYksLiik> subordinates) {
 		this.subordinates = subordinates;
+	}
+
+
+	public Long getYl_id() {
+		return yl_id;
+	}
+
+
+	public void setYl_id(Long yl_id) {
+		this.yl_id = yl_id;
 	}
 
 

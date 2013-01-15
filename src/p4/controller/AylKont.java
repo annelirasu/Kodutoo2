@@ -22,11 +22,15 @@ public class AylKont {
     @RequestMapping(value = "/ayl")
     public String Ayl(ModelMap model) {
 
-        List<AdminYksLiikView> adw = aylDao.getAdmYksLiikAll();
-        model.addAttribute("admLiigid", adw);
-
-       List<AdminYksLiik> ylemused=aylDao.getLiigid();
-       model.addAttribute("ylemused", ylemused);
+    	List<AdminYksLiik> ylemused=aylDao.getLiigid();
+    	AdminYksLiikView adw =  new AdminYksLiikView(); ;
+        adw.setYlemad(ylemused);
+        
+        //siin sellised  liigid, milledel pole veel alluvaid
+        List<AdminYksLiik> alluvad=aylDao.getAlluvad();
+        adw.setAlluvad(alluvad);
+       
+       model.addAttribute("adw", adw);
        
         return "ayl"; //tagastame puu nime, käivitamisel muuda URL http://localhost:8080/Kodutoo2/ayl
     }

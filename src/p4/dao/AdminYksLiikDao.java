@@ -20,7 +20,7 @@ public class AdminYksLiikDao {
 	@PersistenceContext
     private EntityManager em;
 	
-	  @Transactional
+	  @Transactional  //esialgseks katsetuseks
 	    public List<AdminYksLiikView> getAdmYksLiikAll(){
 	    	
 	    		
@@ -32,7 +32,7 @@ public class AdminYksLiikDao {
 	    	return list;
 	    	
 	    }
-	  
+	  //meetod esialgseks katsetuseks
 	  private void lisaAYL(List<AdminYksLiikView> list, AdminYksLiik ayl) {
 			
 		  AdminYksLiikView aylw = new AdminYksLiikView();
@@ -52,6 +52,23 @@ public class AdminYksLiikDao {
 		  liigid.addAll(query.getResultList());
 		  return liigid;
 	  }
+	public List<AdminYksLiik> getAlluvad() {
+		//potentsiaalsed alluvad
+		List <AdminYksLiik> koik  = new ArrayList<AdminYksLiik>();
+		//juba alluvad
+		List <AdminYksLiik> allujad  = new ArrayList<AdminYksLiik>();
+		
+		 TypedQuery<AdminYksLiik> all = em.createQuery("select a from AdminYksLiik a", AdminYksLiik.class);
+		 koik.addAll(all.getResultList());
+		 for(AdminYksLiik adl:koik){
+			allujad.addAll(adl.getSubordinates()) ;
+						 
+		 }
+		 koik.removeAll(allujad);
+		 
+		  return koik;
+		
+	}
 	  
 
 }

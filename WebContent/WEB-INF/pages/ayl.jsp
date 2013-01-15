@@ -12,38 +12,49 @@
 
 
 	<table>
-	<form method="POST">
-		<tr>
-		<td bgcolor="silver">Kood: <input name="ayl_kood"
-		
-					value="curr_kood"><br /> Nimetus: <input name="ayl_nimetus"
-					value="curr_nimetus"><br /> Kommentaar: <br /> <textarea
-						name='ay_liik_komm' id='textAreaId'>
-                        </textarea><br /> Allub: <select name="ayl_liik_ylemus">
-						<option value="dropdown">
-							<c:forEach var="each" items="${ylemused}">
-								<c:out value="${each.nimetus}"><br></c:out>
-								
-							</c:forEach>
-						</option>
-				</select> <br />
+		<form method="POST">
+			<tr>
+				<td bgcolor="silver">Kood: <input name="ayl_kood"
+					value="curr_kood"><br /> Nimetus: <input
+					name="ayl_nimetus" value="curr_nimetus"><br /> Kommentaar:
+					<br /> <textarea name='ay_liik_komm' id='textAreaId'>
+                        </textarea><br /> 
+                        
+                        Allub: <select name="ayl_ylemus_ID">
+						<c:forEach var="each" items="${adw.ylemad}">
+							<c:set var="selected" value="" />
+							<c:if test="${each.id == adminYksLiik.id}">
+								<c:set var="selected" value="selected=\"selected\"" />
+							</c:if>
+							<option value="${each.id}" ${selected}>${each.nimetus}</option>
+						</c:forEach>
+				</select>
+
 
 				</td>
-				<td valign="top" bgcolor="silver">Alluvad<br /> <select
-					name="ay_liik_alluv">
-						<option value='0'></option>
+				<td valign="top" bgcolor="silver">Alluvad<br />
+				
+				 <select name="ayl_alluv_ID">
+						<c:forEach var="each" items="${adw.alluvad}">
+							<c:set var="selected" value="" />
+							<c:if test="${each.id == adminYksLiik.id}">
+								<c:set var="selected" value="selected=\"selected\"" />
+							</c:if>
+							<option value="${each.id}" ${selected}>${each.nimetus}</option>
+						</c:forEach>
+				</select>
 
 				</select> <input type="submit" name="save_alluv" value="Lisa">
 
 				</td>
-			   <tr bgcolor="#99CCFF">
+			<tr bgcolor="#99CCFF">
 
 				<td colspan="2" align="right"><input type="submit"
 					name="save_ayl" value="Salvesta"><input type="submit"
 					name="cancel_ayl" value="Loobu"></td>
-			   </tr>
+			</tr>
 		</form>
 	</table>
-	
+
 </body>
 </html>
