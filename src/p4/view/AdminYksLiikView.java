@@ -8,16 +8,36 @@ public class AdminYksLiikView {
     private String kood;
     private String nimetus;
     private String kommentaar;
+    //ülemuse ajutiseks kinnipüüdmiseks
+    private String yl_id;
     
     
-    //uus, parasjagu loodav
+    public String getYl_id() {
+		return yl_id;
+	}
+
+	public void setYl_id(String yl_id) {
+		this.yl_id = yl_id;
+	}
+
+	//uus, parasjagu loodav
     private AdminYksLiik current;
     //rippmenyys, algab tyhjusega, sest ylemust pole tingimata tarvis
     private List<AdminYksLiik> ylemad;
     //ainult need, kellel veel ylemust ei ole
     private List<AdminYksLiik> alluvad;
+    //vahepeal väljavalitud alluvad, eemaldatakse ühtlasi väljakuvatavate alluvate listist
+    private List<AdminYksLiik> valitudalluvad;
 
-    public String getKood() {
+    public List<AdminYksLiik> getValitudalluvad() {
+		return valitudalluvad;
+	}
+
+	public void setValitudalluvad(List<AdminYksLiik> valitudalluvad) {
+		this.valitudalluvad = valitudalluvad;
+	}
+
+	public String getKood() {
 
         return kood;
     }
