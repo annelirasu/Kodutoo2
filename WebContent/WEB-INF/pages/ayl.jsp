@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,18 +13,21 @@
 
 
 	<table>
-		<form method="POST">
+		<form method="POST" action="ayl">
 			<tr>
-				<td bgcolor="silver">Kood: <input name="ayl_kood"
-					value="curr_kood"><br /> Nimetus: <input
-					name="ayl_nimetus" value="curr_nimetus"><br /> Kommentaar:
-					<br /> <textarea name='ay_liik_komm' id='textAreaId'>
+				<td bgcolor="silver">
+				Kood: <input name="kood"
+					value="${adw.kood}"><br /> Nimetus: <input
+					name="nimetus" value="${adw.nimetus}"><br /> 
+					Kommentaar:
+					<br /> <textarea name='kommentaar' id='textAreaId'>
+					     ${adw.kommentaar}
                         </textarea><br /> 
                         
-                        Allub: <select name="ayl_ylemus_ID">
+                        Allub: <select name="yl_id">
 						<c:forEach var="each" items="${adw.ylemad}">
 							<c:set var="selected" value="" />
-							<c:if test="${each.id == adminYksLiik.id}">
+							<c:if test="${each.id == adw.yl_id}"><!-- siin kahtlane, mida see õigupoolest tähendab -->
 								<c:set var="selected" value="selected=\"selected\"" />
 							</c:if>
 							<option value="${each.id}" ${selected}>${each.nimetus}</option>
@@ -37,15 +41,19 @@
 				 <select name="ayl_alluv_ID">
 						<c:forEach var="each" items="${adw.alluvad}">
 							<c:set var="selected" value="" />
-							<c:if test="${each.id == adminYksLiik.id}">
-								<c:set var="selected" value="selected=\"selected\"" />
-							</c:if>
 							<option value="${each.id}" ${selected}>${each.nimetus}</option>
 						</c:forEach>
 				</select>
 
-				</select> <input type="submit" name="save_alluv" value="Lisa">
-
+				
+                <input type="submit" name="save_alluv" value="Lisa"><br>
+				
+                <c:if test="${not empty adw.valitudalluvad}"> 
+                <c:forEach var="each" items="${adw.valitudalluvad}"> 
+                
+	             <c:out value="${each.nimetus}"></c:out><br>
+                </c:forEach>
+                </c:if> 
 				</td>
 			<tr bgcolor="#99CCFF">
 

@@ -48,6 +48,7 @@ public class InsertTestData {
         em.refresh(al2);
         em.refresh(al3);
         em.refresh(al4);
+        
 
         al1.getSubordinates().add(al2);// maakonnale allub linn
         al3.getSubordinates().add(al1);// ringkonnale maakond
@@ -56,8 +57,7 @@ public class InsertTestData {
 
     private AdminYksLiik createAdmYksLiik(String kood, String nimetus,
             String komm) {
-        Date d = new Date(0);
-
+        
         AdminYksLiik ayl = new AdminYksLiik();
         ayl.setKood(kood);
         ayl.setNimetus(nimetus);
