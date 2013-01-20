@@ -21,19 +21,27 @@ public class AdminYksLiik implements Serializable {
 	@GeneratedValue
 	@Column(name = "admYksLiik_id")
 	private Long id;  
-
+        @Column(length = 32, nullable = false)
 	private String kood; 
+        @Column(length = 50, nullable = false)
 	private String nimetus;
+        @Column(length = 300, nullable = false)
 	private String kommentaar;
+        @Column(length = 50, nullable = false)
 	private String avaja;
+        @Column(length = 12, nullable = false)
 	private String avatud;
+        @Column(length = 50, nullable = false)
 	private String muutja;
+        @Column(length = 12, nullable = false)
 	private String muudetud;
+        @Column(length = 50)
 	private String sulgeja;
+        @Column(length = 32, nullable = false)
 	private String suletud;
 	
 	//ylemuse ID vormilt kinnipüüdmiseks
-    private String yl_id;
+        private String yl_id;
 	
 
 

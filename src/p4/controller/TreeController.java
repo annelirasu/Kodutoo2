@@ -26,11 +26,10 @@ public class TreeController {
     public String personTree(ModelMap model) {
     	//peale testandmete sisestamist kaval välja kommenteerida
     	insertTestData.doTheMagic();
+  
     	
-    	
-    	
-    	List<AdminYksLiikView> adw = adminYksLiikDao.getAdmYksLiikAll();
-    	model.addAttribute("admLiigid",adw);
+    	AdminYksLiikView adw = adminYksLiikDao.getAdmYksLiikAll();
+    	model.addAttribute("adw",adw);
     	 
     	
     	

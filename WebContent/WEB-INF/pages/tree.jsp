@@ -6,13 +6,24 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body>
-<p>Tervitus jsp-st!</p>
-<!--<c:forEach var="each" items="${personRows}"> 
-	<span style="padding-left:${each.level}0px"></span><c:out value="${each.name}"></c:out><br>
-</c:forEach> -->
-<c:forEach var="each" items="${admLiigid}"> 
-	<c:out value="${each.nimetus}"></c:out><br>
+<p>Oled sisestanud järgnevad testandmed</p>
+<table border="1">
+    <tr>
+        <th>Kood</th>
+        <th>Alluvusüksuse liigi nimetus</th>
+        <th> Kommentaar</th>
+    </tr>
+    
+    
+        
+<c:forEach var="each" items="${adw.ylemad}"> 
+   <tr> 
+       <td><c:out value="${each.kood}"></c:out></td>
+       <td><c:out value="${each.nimetus}"></c:out></td> 
+       <td><c:out value="${each.kommentaar}"></c:out></td>
+   </tr>
 </c:forEach>
-
+   
+</table>
 </body>
 </html>
