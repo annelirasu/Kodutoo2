@@ -21,14 +21,13 @@
     </property>
   </bean>
 
-  <!-- to enable @Transactional annotations -->
-  <tx:annotation-driven transaction-manager="transactionManager" />
+  
 
   <bean id="dataSource"
     class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     <property name="driverClassName" value="org.hsqldb.jdbcDriver" />
     <property name="url"
-         value="jdbc:hsqldb:file:${user.home}/i377/Team03d/piirivalve2Db;shutdown=true"/>  <!-- kodus: jdbc:hsqldb:file:${user.home}/Piirivalve2db;shutdown=true  siin peab olema andmebaasiviide  -->
+         value="jdbc:hsqldb:file:${user.home}/i377/Team03d/piirivalve2Db;shutdown=true"/>  <!-- kodus: jdbc:hsqldb:file:${user.home}/Piirivalve2db;shutdown=true  siin peab olema andmebaasiviide --> 
     <property name="username" value="sa" />
     <property name="password" value="" />
   </bean> 
@@ -50,6 +49,6 @@
   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
     <property name="entityManagerFactory" ref="entityManagerFactory" />
   </bean>
-  
+ 
 
 </beans>
