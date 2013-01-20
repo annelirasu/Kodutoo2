@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -22,11 +23,8 @@
 					<spring:message code="label.ayl.name"/> 
 					<input name="nimetus" value="${adw.current.nimetus}"><br /> 
 					<spring:message code="label.ayl.comment"/>
-					<br /> <textarea name='kommentaar' id='textAreaId'>
-					     ${adw.current.kommentaar}
-                        </textarea><br /> 
-                        
-                       <spring:message code="label.ayl.superior"/> <select name="yl_id">
+					<br /> <textarea name='kommentaar' id='textAreaId' cols="30" rows="7">${adw.current.kommentaar}</textarea><br /> 	 
+					 <spring:message code="label.ayl.superior"/> <select name="yl_id">
 						<c:forEach var="each" items="${adw.ylemad}">
 							<c:set var="selected" value="" />
 							<c:if test="${each.id == adw.current.yl_id}"><!-- kui tuleb alluvate lisamisel tagasi -->
@@ -54,8 +52,8 @@
                 <c:if test="${not empty adw.valitudalluvad}"> 
                 <c:forEach var="each" items="${adw.valitudalluvad}"> 
                 
-	             <c:out value="${each.nimetus}">
-	             <input type="submit" name="eemalda_alluv" id="${each.id}" value='<spring:message code="button.ayl.remove" />'></c:out><br>
+	             <c:out value="${each.nimetus}" ><input type="submit" name="eemalda_alluv" id="${each.id}" value='<spring:message code="button.ayl.remove" />'>
+	             </c:out><br>
                 </c:forEach>
                 </c:if> 
 				</td>
