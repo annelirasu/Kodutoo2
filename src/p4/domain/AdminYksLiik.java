@@ -1,5 +1,6 @@
 package p4.domain;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -14,8 +15,8 @@ import javax.persistence.OneToMany;
 
 
 @Entity
-public class AdminYksLiik {
-
+public class AdminYksLiik implements Serializable {
+     private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
 	@Column(name = "admYksLiik_id")
@@ -32,8 +33,10 @@ public class AdminYksLiik {
 	private String suletud;
 	
 	//ylemuse ID vormilt kinnipüüdmiseks
-
+    private String yl_id;
 	
+
+
 	public AdminYksLiik() {
 
 	}
@@ -126,8 +129,13 @@ public class AdminYksLiik {
 	public void setSubordinates(Collection<AdminYksLiik> subordinates) {
 		this.subordinates = subordinates;
 	}
+	public String getYl_id() {
+		return yl_id;
+	}
 
-
+	public void setYl_id(String yl_id) {
+		this.yl_id = yl_id;
+	}
 
 
 }
