@@ -3,6 +3,8 @@ package p4.controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
+
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,8 +22,8 @@ public class AylKont {
 
     @Resource
     private AdminYksLiikDao aylDao;
-//    @Resource
-//    private AdminYksLiik ayl;
+    @Resource
+    private MessageSource resources;
 
     @RequestMapping(value = "/ayl")
     public String Ayl(ModelMap model) {
@@ -35,8 +37,14 @@ public class AylKont {
 
     //see saab vormilt andmed
     @RequestMapping(value = "/ayl", method = RequestMethod.POST)
-    public String saveForm(@ModelAttribute("adminYksLiikView") AdminYksLiikView adw, @RequestParam("ayl_alluv_ID") String alluv_ID,
-            ModelMap model) {
+    public String saveForm(@ModelAttribute("adminYksLiik") AdminYksLiik ayl, 
+    		               @RequestParam("ayl_alluv_ID") String alluv_ID,
+    		               @RequestParam(required=false , value = "lisa_alluv") String lisa_alluv_Sub ,
+//    		               @RequestParam("lisa_alluv") String lisa_alluv_Sub,//nupud
+    		               @RequestParam(required=false , value = "save_ayl") String save_ayl_Sub,
+    		               @RequestParam(required=false , value = "cancel_ayl") String cancel_Sub,
+    		               @RequestParam(required=false , value = "eemalda_alluv") String eemalda_alluv_Sub,
+                            ModelMap model) {
 
         int alluvID;
         if (!alluv_ID.isEmpty()) {
@@ -49,23 +57,24 @@ public class AylKont {
             //otsi see person välja , võta ta ära view allujate listist ja pane valitudallujate listi
             Long aylID = Long.parseLong(alluv_ID, 10);
             AdminYksLiik alluv = aylDao.aylById(aylID);
-
-            List<AdminYksLiik> alluvad = aylDao.getAlluvad();
-            alluvad.remove(alluv);//see remove ei tööta?
-            adw.setAlluvad(alluvad);
-
-
+            
+            AdminYksLiikView adw = getYlsAls();//view koos ülemuste ja alluvatega baasist
+            adw.getAlluvad().remove(alluv);//see remove ei tööta?
+            
             List<AdminYksLiik> valitudalluvad = new ArrayList<AdminYksLiik>();
             valitudalluvad.add(alluv);
             adw.setValitudalluvad(valitudalluvad);
+            
+            adw.setCurrent(ayl);
+            model.addAttribute("adw", adw);
 
         } else { //kui alluvaid ei valita, siis salvestame baasi, hiljem tuleb siiski uurida, mis on parajasti valitudalluvad listi sisu ja sellega tegeleda
-            AdminYksLiik curr = new AdminYksLiik();
-            curr.setKood(adw.getKood());
-            curr.setNimetus(adw.getNimetus());
-            curr.setKommentaar(adw.getKommentaar());
+//            AdminYksLiik curr = new AdminYksLiik();
+//            curr.setKood(ayl.getKood());
+//            curr.setNimetus(ayl.getNimetus());
+//            curr.setKommentaar(ayl.getKommentaar());
             //proovime baasi salvestada
-            aylDao.store(curr);
+            aylDao.store(ayl);
             //to do tagasipärimine nt koodi järgi (koodid peavad seega unikaalsed olema)
             //ülemuse Id järgi väljapärimine 
             //käesoleva lisamine ülemusele alluvaks
@@ -74,16 +83,14 @@ public class AylKont {
             AdminYksLiikView adw2 = getYlsAls();
             model.addAttribute("adw", adw2);
             return "ayl";
-        }
-
-        model.addAttribute("adw", adw);
+        } 
 
         return "ayl";
     }
 
     private AdminYksLiikView getYlsAls() {
+         AdminYksLiikView adw = new AdminYksLiikView();
         List<AdminYksLiik> ylemused = aylDao.getLiigid();
-        AdminYksLiikView adw = new AdminYksLiikView();
         adw.setYlemad(ylemused);
 
         //siin sellised  liigid, milledel pole veel alluvaid
