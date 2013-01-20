@@ -3,16 +3,17 @@
   xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
   id="WebApp_ID" version="2.5">
-
   <servlet>
     <servlet-name>mvc-dispatcher</servlet-name>
     <servlet-class>
         org.springframework.web.servlet.DispatcherServlet
     </servlet-class>
-    <init-param>
+    
+        <init-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/beans.xml</param-value>
-    </init-param>
+        <param-value>/WEB-INF/dispatcher.xml</param-value>
+        </init-param>
+    
     <load-on-startup>1</load-on-startup>
   </servlet>
 
@@ -20,7 +21,34 @@
     <servlet-name>mvc-dispatcher</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
-<!-- everything in utf8 -->
+  <servlet-mapping>
+      <servlet-name>mvc-dispatcher</servlet-name>
+      <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <listener>
+      <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+      </listener-class>
+  </listener>
+
+  <context-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>
+           /WEB-INF/beans.xml
+      </param-value>
+  </context-param>
+
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/static/*</url-pattern>
+  </servlet-mapping>
+  
+  
+  
+  
+  
+  <!-- everything in utf8 -->
  <filter>
   <filter-name>encodingFilter</filter-name>
   <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

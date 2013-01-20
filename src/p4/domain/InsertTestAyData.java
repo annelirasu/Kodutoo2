@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -82,6 +81,7 @@ public class InsertTestAyData {
         ay.setKuni(kuni);
         ay.setMuudetud(new Date());
         ay.setMuutja("R");
+        ay.setNimetus(nimi);
         ay.setSuletud(stod("9999-12-31"));
         ay.setSulgeja("-");
              
