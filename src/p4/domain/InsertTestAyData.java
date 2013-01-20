@@ -29,17 +29,36 @@ public class InsertTestAyData {
 	@Transactional
         public void insertData() {
             AdminYksus ay1=createAy("V145","Leisi vald","saarel",stod("2001-12-12"),stod("9999-12-31"),4);
-            System.out.println(ay1.getAdmykId());
+            AdminYksus ay2=createAy("V146","Orissaare vald","saarel",stod("2001-12-12"),stod("9999-12-31"),4);
+            AdminYksus ay3=createAy("M146","Harju maakond","suure rahvastikutihedusega",stod("2001-12-12"),stod("9999-12-31"),1);
+            AdminYksus ay4=createAy("L145","Kuressaare linn","saarel",stod("2001-12-12"),stod("9999-12-31"),2);
+            AdminYksus ay5=createAy("A145","Orissaare alev","saarel",stod("2001-12-12"),stod("9999-12-31"),3);
+            AdminYksus ay6=createAy("M145","Saare maakond","saarel",stod("2001-12-12"),stod("9999-12-31"),4);
+            //System.out.println(ay1.getAdmykId());
+           
             em.persist(ay1);
+            em.persist(ay2);
+            em.persist(ay3);
+            em.persist(ay4);
+            em.persist(ay5);
+            em.persist(ay6);
             em.flush();
             em.refresh(ay1);
+            em.refresh(ay2);
+            em.refresh(ay3);
+            em.refresh(ay4);
+            em.refresh(ay5);
+            em.refresh(ay6);
+            
+            ay6.getAlluvad().add(ay1);
+            ay6.getAlluvad().add(ay2);
+            ay2.getAlluvad().add(ay5);
         
         }
         
         private Date stod(String kp){
         SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-dd");
-        
-        try {
+         try {
             return sdf.parse(kp);
         } catch (ParseException ex) {
            return null;

@@ -21,7 +21,7 @@ public class VneliKont  {
     
     @RequestMapping(value = "/vorm4")
     public String personTree(ModelMap model) {
-    	itd.insertData();
+    	//itd.insertData();
     	
     	
         return "vorm4"; //tagastame puu nime, käivitamisel muuda URL http://localhost:8080/Kodutoo2/tree
