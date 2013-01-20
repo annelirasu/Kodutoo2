@@ -34,8 +34,8 @@ public class AaRapCont {
     //GET päring
     @RequestMapping(value = "/aaRap")
     public String ayRap(ModelMap model) {
-        // Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //model.addAttribute("username", authentication.getName());
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("username", authentication.getName());
         List<AdminYksus> ady = adminYksusDao.getAdmYksAll();
         model.addAttribute("admYksused", ady);
         

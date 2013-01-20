@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,13 +21,13 @@
   <c:if test="${not empty error}">
         <spring:message code="${error}"/>
            
-            <p>${error}</p>
+           
   </c:if>
 
-  <form action='<c:url value="j_spring_security_check" />' method="POST">
+  <form action="<c:url value='j_spring_security_check' />" method="POST">
     <input type="text" name="j_username" value="admin"><br>
     <input type="password" name="j_password" value="1" /><br>
-    <input type="submit" value='Loginn' />
+    <input type="submit" value="<spring:message code='button.login' />"  />
   </form>
 
     </body>

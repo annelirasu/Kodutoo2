@@ -36,6 +36,7 @@
       <param-name>contextConfigLocation</param-name>
       <param-value>
            /WEB-INF/beans.xml
+          /WEB-INF/security.xml
       </param-value>
   </context-param>
 
@@ -65,4 +66,18 @@
   <filter-name>encodingFilter</filter-name>
   <url-pattern>/*</url-pattern>
  </filter-mapping>
+ 
+ <!-- security -->
+ <filter>
+      <filter-name>springSecurityFilterChain</filter-name>
+      <filter-class>
+                org.springframework.web.filter.DelegatingFilterProxy
+      </filter-class>
+  </filter>
+
+  <filter-mapping>
+      <filter-name>springSecurityFilterChain</filter-name>
+      <!-- enne oli siin aaRap asemel * -->
+      <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>
