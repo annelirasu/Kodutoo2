@@ -10,9 +10,19 @@ public class AdminYksLiikView {
     private String kommentaar;
     //ülemuse ajutiseks kinnipüüdmiseks
     private String yl_id;
+    //veateadeteks
+    private String errormessage;
     
     
-    public String getYl_id() {
+    public String getErrormessage() {
+		return errormessage;
+	}
+
+	public void setErrormessage(String errormessage) {
+		this.errormessage = errormessage;
+	}
+
+	public String getYl_id() {
 		return yl_id;
 	}
 

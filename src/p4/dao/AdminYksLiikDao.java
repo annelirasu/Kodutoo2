@@ -32,6 +32,37 @@ public class AdminYksLiikDao {
 	       return adw;	
 	    }
 	  
+	  @Transactional  //küsime tagasi äsjasisestatud liigi
+	    public AdminYksLiik getCurrentByCode(String kood, String nimi, String komm){
+	    	
+		 TypedQuery<AdminYksLiik> query = em.createQuery("select a from AdminYksLiik a where a.kood='" + kood + "' AND a.nimetus='" + nimi + "' AND a.kommentaar='" + komm + "'", AdminYksLiik.class);
+				                          
+		 AdminYksLiik curr = query.getSingleResult();
+		 
+	       return curr;	
+	    }
+	  
+	  @Transactional  //küsime tagasi äsjasisestatud liigi
+	    public void  setCurrToSub(String Yl_id, AdminYksLiik alluv){
+	    	
+		   Long ylem_ID=Long.parseLong(Yl_id, 10);
+		   AdminYksLiik ylemus=aylById(ylem_ID); 
+				                          
+		    ylemus.getSubordinates().add(alluv);
+		 
+	    }
+	    @Transactional
+		public void setSubsToCurr(AdminYksLiik curr,
+				List<AdminYksLiik> loplikudAlluvad) {
+	    	Long currID=curr.getId();
+	    	AdminYksLiik ylemus=aylById(currID); 
+	    	for(AdminYksLiik alluv:loplikudAlluvad){
+	    		ylemus.getSubordinates().add(alluv);
+	    	}
+			
+		}
+	  	  
+	  
 	  @Transactional  //ylemusteks võivad uuele liigle sobida k6ik
 	    public List<AdminYksLiik> getLiigid(){
 		  
@@ -107,6 +138,7 @@ public class AdminYksLiikDao {
 	    	return ayl;
 	    	
 	    }
+
 	  
 
 }

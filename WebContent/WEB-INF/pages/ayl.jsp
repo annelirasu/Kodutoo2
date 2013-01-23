@@ -1,5 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
@@ -10,61 +10,72 @@
 <title>Administratiivüksuste liigi redaktor</title>
 </head>
 <body>
-   <jsp:include page="lang.jsp" />
-	<h1><spring:message code="heading.ayl" /></h1>
+	<jsp:include page="lang.jsp" />
+	<h1>
+		<spring:message code="heading.ayl" />
+	</h1>
 
 
 	<table>
 		<form method="POST" action="ayl">
 			<tr>
-				<td bgcolor="silver">
-				<spring:message code="label.ayl.code"/> 
-				<input name="kood" value="${adw.current.kood}"><br /> 
-					<spring:message code="label.ayl.name"/> 
-					<input name="nimetus" value="${adw.current.nimetus}"><br /> 
-					<spring:message code="label.ayl.comment"/>
-					<br /> <textarea name='kommentaar' id='textAreaId' cols="30" rows="7">${adw.current.kommentaar}</textarea><br /> 	 
-					 <spring:message code="label.ayl.superior"/> <select name="yl_id">
+				<td bgcolor="silver"><spring:message code="label.ayl.code" /> <input
+					name="kood" value="${adw.current.kood}"><br /> <spring:message
+						code="label.ayl.name" /> <input name="nimetus"
+					value="${adw.current.nimetus}"><br /> <spring:message
+						code="label.ayl.comment" /> <br /> <textarea name='kommentaar'
+						id='textAreaId' cols="30" rows="7">${adw.current.kommentaar}</textarea><br />
+					<spring:message code="label.ayl.superior" /> <select name="yl_id">
 						<c:forEach var="each" items="${adw.ylemad}">
 							<c:set var="selected" value="" />
-							<c:if test="${each.id == adw.current.yl_id}"><!-- kui tuleb alluvate lisamisel tagasi -->
+							<c:if test="${each.id == adw.current.yl_id}">
+								<!-- kui tuleb alluvate lisamisel tagasi -->
 								<c:set var="selected" value="selected=\"selected\"" />
 							</c:if>
 							<option value="${each.id}" ${selected}>${each.nimetus}</option>
 						</c:forEach>
-				</select>
+				</select></td>
+				<td valign="top" bgcolor="silver"><spring:message
+						code="label.ayl.subordinates" /><br /> 
+                                    
+                                    	<c:if test="${not empty adw.valitudalluvad}">
+						<table>
+							<c:forEach var="each" items="${adw.valitudalluvad}">
+								<tr>
+									<td><c:out value="${each.nimetus}"></td>
+									</c:out>
+									<td><input type="submit" name="eemalda_${each.id}"
+										value='<spring:message code="button.ayl.remove" />'>
+									<td>
+								</tr>
+							</c:forEach>
 
-
-				</td>
-				<td valign="top" bgcolor="silver">
-				<spring:message code="label.ayl.subordinates"/><br />
-				
-				 <select name="ayl_alluv_ID">
+						</table>
+					</c:if>
+                                    
+                                    
+                                    <select
+					name="ayl_alluv_ID">
 						<c:forEach var="each" items="${adw.alluvad}">
 							<c:set var="selected" value="" />
 							<option value="${each.id}" ${selected}>${each.nimetus}</option>
 						</c:forEach>
-				</select>
+				</select> <input type="submit" name="lisa_alluv"
+					value='<spring:message code="button.ayl.add" />'><br>
 
-				
-                <input type="submit" name="lisa_alluv" value='<spring:message code="button.ayl.add" />'><br>
-				
-                <c:if test="${not empty adw.valitudalluvad}"> 
-                <c:forEach var="each" items="${adw.valitudalluvad}"> 
-                
-	             <c:out value="${each.nimetus}" ><input type="submit" name="eemalda_alluv" id="${each.id}" value='<spring:message code="button.ayl.remove" />'>
-	             </c:out><br>
-                </c:forEach>
-                </c:if> 
 				</td>
 			<tr bgcolor="#99CCFF">
 
-				<td colspan="2" align="right">
-				<input type="submit" name="save_ayl" value='<spring:message code="button.ayl.save" />'>
-				<input type="submit" name="cancel_ayl" value='<spring:message code="button.ayl.cancel" />'></td>
+				<td colspan="2" align="right"><input type="submit"
+					name="save_ayl" value='<spring:message code="button.ayl.save" />'>
+					<input type="submit" name="cancel_ayl"
+					value='<spring:message code="button.ayl.cancel" />'></td>
 			</tr>
 		</form>
 	</table>
+	<c:if test="${not empty adw.errormessage}"> 
+               <c:out value="${adw.errormessage}" ></c:out>
+                                </c:if>
 
 </body>
 </html>
