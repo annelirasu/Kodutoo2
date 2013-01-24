@@ -21,6 +21,7 @@ import p4.domain.*;
 import p4.view.*;
 
 @Controller
+@RequestMapping("/admin")
 @SessionAttributes("adw")
 // luuakse sessioon, kus sees on adw nimeline objekt
 public class AylKont {

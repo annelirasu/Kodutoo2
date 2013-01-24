@@ -11,6 +11,8 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import p4.domain.AdminYksLiik;
 import p4.view.*;
@@ -20,6 +22,25 @@ public class AdminYksLiikDao {
 	
 	@PersistenceContext
     private EntityManager em;
+	
+	
+	 @Transactional  //esialgseks katsetuseks
+	   public void dropAdminYksLiikTable(){
+			
+		 List <AdminYksLiik> liigid  = new ArrayList<AdminYksLiik>();
+		 TypedQuery<AdminYksLiik> query = em.createQuery("select a from AdminYksLiik a", AdminYksLiik.class);
+		 liigid.addAll(query.getResultList());
+		 
+	     
+	     
+	     for (AdminYksLiik ayl:liigid){
+		  em.remove(ayl);
+	     }
+		 
+		 
+		 
+	 
+	 }
 	
 	  @Transactional  //esialgseks katsetuseks
 	    public AdminYksLiikView getAdmYksLiikAll(){

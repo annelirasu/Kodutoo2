@@ -37,13 +37,13 @@
 
   <mvc:interceptors>
     <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-      <property name="paramName" value="lang"></property>
+      <property name="paramName" value="lang"></property><!-- tarvilik keelevahetuseks -->
     </bean>
   </mvc:interceptors>
 
   <bean id="localeResolver"
     class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-    <property name="defaultLocale" value="en" />
+    <property name="defaultLocale" value="en" /> <!-- tarvilik keelevahetuseks -->
   </bean>
 
 

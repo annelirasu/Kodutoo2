@@ -26,7 +26,7 @@ public class InsertTestData {
     @Transactional
     public void doTheMagic() {
         insertData();
-        displayData();
+       
     }
 
 //	public static void main(String[] args) {
@@ -69,12 +69,7 @@ public class InsertTestData {
     }
 
  
-    @Transactional
-    private void displayData() {
-        AdminYksLiik ayl = em.find(AdminYksLiik.class, 1L); //finds by primary key
-        System.out.println(ayl.getAvatud());
-        showSubs(ayl, 0);
-    }
+  
 
     private void showSubs(AdminYksLiik ayl, int level) {
         System.out.println(level + " " + ayl);
