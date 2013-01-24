@@ -48,13 +48,14 @@ public class InsertTestData {
         em.refresh(al2);
         em.refresh(al3);
         em.refresh(al4);
-        
+       
+
 
         al1.getSubordinates().add(al2);// maakonnale allub linn
         al3.getSubordinates().add(al1);// ringkonnale maakond
         al1.getSubordinates().add(al4); // maakonnale vald
     }
-
+    
     private AdminYksLiik createAdmYksLiik(String kood, String nimetus,
             String komm) {
         
