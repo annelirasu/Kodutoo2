@@ -5,11 +5,13 @@ import java.util.Enumeration;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,23 +36,31 @@ public class AylKont {
 
 	@RequestMapping(value = "/ayl")
 	public String Ayl(ModelMap model) {
-
 		AdminYksLiikView adw = getYlsAls();
-
+		adw.setCurrent(new AdminYksLiik());
 		model.addAttribute("adw", adw);
-
 		return "ayl"; // tagastame puu nime, käivitamisel muuda URL
 						// http://localhost:8080/Kodutoo2/ayl
 	}
 
 	// meetod selleks, kui vajutatakse salvesta nuppu
 	@RequestMapping(value = "/ayl", method = RequestMethod.POST, params = "save_ayl")
-	public String salvestaAyl(@ModelAttribute("adminYksLiik") AdminYksLiik ayl,
-			@ModelAttribute("adw") AdminYksLiikView adw, // sessioonist listid
-			ModelMap model) {
-
+	public String salvestaAyl(
+			@Valid @ModelAttribute("adw") AdminYksLiikView adw, BindingResult result,
+			ModelMap model
+			) {
+		if (result.hasErrors()) {
+			System.out.println("error "+result);
+//			model.addAttribute("adw", adw);
+			return "ayl";		
+		}
+				
+		if (!result.hasErrors()) {
+			model.addAttribute("message", "message.ok");			
+		}
 		// int alluvID;
 		// if (save_ayl_Sub != null) {
+		AdminYksLiik ayl=adw.getCurrent();
 		aylDao.store(ayl);
 		
 		//küsime äsja baasi salvestatud liigi tagasi kolme tunnuse järgi, mis loodetavasti moodustavad unikaalse kombinatsiooni
@@ -83,13 +93,12 @@ public class AylKont {
 
 	// menetleme alluvate lisamist
 	@RequestMapping(value = "/ayl", method = RequestMethod.POST, params = "lisa_alluv")
-	public String lisaAlluv(@ModelAttribute("adminYksLiik") AdminYksLiik ayl,
+	public String lisaAlluv(
 			@ModelAttribute("adw") AdminYksLiikView adw, // sessioonist listid
-								// tagasi
 			@RequestParam("ayl_alluv_ID") String alluv_ID,
 			ModelMap model) {
 
-		adw.setCurrent(ayl);
+		
 
 		String Yl_ID = adw.getCurrent().getYl_id();
 		int alluvID;
@@ -142,11 +151,9 @@ public class AylKont {
 	// menetleme valitud alluvate eemaldamist
 	@RequestMapping(value = "/ayl", method = RequestMethod.POST)
 	public String eemaldaAlluv(
-			@ModelAttribute("adminYksLiik") AdminYksLiik ayl,
 			@ModelAttribute("adw") AdminYksLiikView adw, // sessioonist listid
 			HttpServletRequest request, ModelMap model) {
 
-		adw.setCurrent(ayl);
 
 		String alluv_ID = "";
 		Enumeration<String> params = request.getParameterNames();
