@@ -44,8 +44,8 @@
 						<table>
 							<c:forEach var="each" items="${adw.valitudalluvad}">
 								<tr>
-									<td><c:out value="${each.nimetus}"></td>
-									</c:out>
+									<td><c:out value="${each.nimetus}"></c:out></td>
+									
 									<td><input type="submit" name="eemalda_${each.id}"
 										value='<spring:message code="button.ayl.remove" />'>
 									<td>

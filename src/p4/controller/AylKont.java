@@ -7,8 +7,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -88,8 +86,15 @@ public class AylKont {
 		// return "/"; // siin peaks olema tagasipöördumine indexisse, mida
 		// // meil veel aretatud pole
 		// }
-		return "ayl";
+		return "redirect:/home"; //avalehe menyysse tagasi!
 	}
+	
+	
+	@RequestMapping(value = "/ayl", method = RequestMethod.POST, params = "cancel_ayl")
+	public String cancelNupp() {
+		return "redirect:/home";
+	}
+	
 
 	// menetleme alluvate lisamist
 	@RequestMapping(value = "/ayl", method = RequestMethod.POST, params = "lisa_alluv")
