@@ -20,19 +20,34 @@
                 <tr>
                     <td><input type="date" name="kuupaev" value="" /></td>
                     <td>
-                        <select name="ayLiik">
+                        <select name="aYksus">
                             <c:forEach var="each" items="${admYksused}">
 							<c:set var="selected" value="" />
-							
-							<option value="${each.id}">${each.nimetus}</option>
-			   </c:forEach>
+                                                        <c:if test="${each.id == vaYksus.id}">
+								<c:set var="selected" value="selected=\"selected\"" />
+							</c:if>
+							<option value="${each.id}" ${selected}>${each.nimetus}</option>
+			 </c:forEach>
                             
 
                         </select>
                     </td>
                     <td>
                         <input type="submit" value='<spring:message code="button.refresh" />' />  
-                    </td>  
+                    </td> 
+                    
+                    <!-- esmalt ülemüksuse nimi -->
+                    
+                        <table border='1'><tr><td colspan='2'><h5>${vaYksus}</h5></td></tr>
+                        <!-- seejärel alluvad -->
+                        <c:forEach var="each" items="${alluvad}">
+					<tr>
+                                        <td> ${each.nimetus}</td>
+                                        <td><input type='submit' name='nupp${each.id}' value='Vaata' /></td>
+                                        </tr>               
+							
+			 </c:forEach>
+                        </table>
 
                 </tr>
             </table>
