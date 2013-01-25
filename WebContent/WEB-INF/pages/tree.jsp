@@ -13,7 +13,7 @@
 <table border="1">
     <tr>
         <th><spring:message code="th.code"/></th>
-        <th><spring:message code="th.region"/></th>
+        <th><spring:message code="th.regiontype"/></th>
         <th> <spring:message code="th.comment"/></th>
     </tr>
     
@@ -26,8 +26,28 @@
        <td><c:out value="${each.kommentaar}"></c:out></td>
    </tr>
 </c:forEach>
- 
- <a href="home"><spring:message code="link.home"/></a>
 </table>
+<p><br/></p>
+
+<table border="1">
+    <tr>
+        <th><spring:message code="th.code"/></th>
+        <th><spring:message code="th.region"/></th>
+        <th> <spring:message code="th.comment"/></th>
+    </tr>
+    
+    
+        
+<c:forEach var="each" items="${yksused}"> 
+   <tr> 
+       <td><c:out value="${each.kood}"></c:out></td>
+       <td><c:out value="${each.nimetus}"></c:out></td> 
+       <td><c:out value="${each.kommentaar}"></c:out></td>
+   </tr>
+</c:forEach>
+ 
+
+</table>
+<br/> <a href="home"><spring:message code="link.home"/></a>
 </body>
 </html>

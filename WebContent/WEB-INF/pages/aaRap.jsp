@@ -10,13 +10,13 @@
     </head>
     <body>
          <jsp:include page="lang.jsp" />
-        <h1>Administratiivüksuste alluvusraport!</h1>
+        <h1><spring:message code="heading.ayr" /></h1>
         <form:form commandname="vaYksus" method="post" action="aaRap">
              <form:errors path="*" cssClass="errorblock" element="div" />
             <table>
                 <tr>
                     
-                    <td>Liik</td>
+                    <td><spring:message code="label.ayr.type" /></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -35,7 +35,7 @@
                         </select>
                     </td>
                     <td>
-                        <input type="submit" value='<spring:message code="button.refresh" />' />  
+                        <input type="submit" value='<spring:message code="button.ayr.refresh" />' />  
                     </td> 
                     
                     <!-- esmalt ülemüksuse nimi -->
@@ -45,7 +45,7 @@
                         <c:forEach var="each" items="${alluvad}">
 					<tr>
                                         <td> ${each.nimetus}</td>
-                                        <td><input type='submit' name='nupp${each.id}' value='Vaata' /></td>
+                                        <td><input type='submit' name='nupp${each.id}' value='<spring:message code="button.ayr.watch" />' /></td>
                                         </tr>               
 							
 			 </c:forEach>

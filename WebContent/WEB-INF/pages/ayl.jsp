@@ -15,19 +15,19 @@
 		<form:errors path="*" cssClass="errorblock" element="div" />
 	<form:form method="POST" action="ayl" name="ayl" modelAttribute="adw" commandName="adw">
 	
-	<table>
+	<table width="400">
 		<tr>
 				<td bgcolor="silver">
 				<spring:message code="label.ayl.code" />
-				<form:input path="current.kood" value="${adw.current.kood}"/><br /> 
+				<form:input path="current.kood" size="10" value="${adw.current.kood}" /><br /> 
 				<form:errors path="current.kood" cssClass="error" element="div" />
 				
 				<spring:message code="label.ayl.name" /> 
-				<form:input path="current.nimetus" value="${adw.current.nimetus}"/><br />
+				<form:input path="current.nimetus" size="20" value="${adw.current.nimetus}"/><br />
 				<form:errors path="current.nimetus" cssClass="error" element="div" />
 				
 				 <spring:message code="label.ayl.comment" /> <br /> 
-				 <form:textarea path="current.kommentaar" value="${adw.current.kommentaar}" cols="30" rows="7"></form:textarea><br />
+				 <form:textarea path="current.kommentaar" value="${adw.current.kommentaar}" cols="20" rows="5"></form:textarea><br />
 				 <form:errors path="current.kommentaar" cssClass="error" element="div" />
 					
 					<spring:message code="label.ayl.superior" /> 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import p4.dao.*;
+import p4.domain.AdminYksus;
 import p4.domain.InsertTestAyData;
 import p4.domain.InsertTestData;
 import p4.view.*;
@@ -37,6 +38,8 @@ public class TreeController {
     	insertTestData.doTheMagic();
         itd.insertData();
     	
+        List<AdminYksus> yksused=  ayDao.getAdmYksAll();
+        model.addAttribute("yksused",yksused); 
     	AdminYksLiikView adw = aylDao.getAdmYksLiikAll();
     	model.addAttribute("adw",adw);    	
     	
