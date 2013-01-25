@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%> <!-- et vigade tagi lugeda -->
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,15 +11,16 @@
     <body>
          <jsp:include page="lang.jsp" />
         <h1>Administratiivüksuste alluvusraport!</h1>
-        <form name="varskenda" method="post" action="">
+        <form:form commandname="vaYksus" method="post" action="aaRap">
+             <form:errors path="*" cssClass="errorblock" element="div" />
             <table>
                 <tr>
-                    <td>Kuupäev</td>
+                    
                     <td>Liik</td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td><input type="date" name="kuupaev" value="" /></td>
+                    
                     <td>
                         <select name="aYksus">
                             <c:forEach var="each" items="${admYksused}">
@@ -38,7 +40,7 @@
                     
                     <!-- esmalt ülemüksuse nimi -->
                     
-                        <table border='1'><tr><td colspan='2'><h5>${vaYksus}</h5></td></tr>
+                        <table border='1'><tr><td colspan='2'><h5>${vaYksus.nimetus}</h5></td></tr>
                         <!-- seejärel alluvad -->
                         <c:forEach var="each" items="${alluvad}">
 					<tr>
@@ -52,6 +54,6 @@
                 </tr>
             </table>
             
-        </form>
+        </form:form>
     </body>
 </html>

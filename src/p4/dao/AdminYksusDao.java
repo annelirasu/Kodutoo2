@@ -38,8 +38,9 @@ public class AdminYksusDao {
             List<AdminYksus> employees = query.getResultList();
             */
               //tiri kõik päringutega mällu
-              System.out.println("enne päringut");
-               TypedQuery<AdminYksus> query = em.createQuery("select a from AdminYksus a", AdminYksus.class);
+              Long id=ay.getId();
+              System.out.println("enne päringut sisenes ay nimega" + ay.getId());
+               TypedQuery<AdminYksus> query = em.createQuery("select a from AdminYksus a where a.id="+id, AdminYksus.class);
                System.out.println("pärast päringut");
                List<AdminYksus> ayList=query.getResultList();
                 System.out.println("pärast listi");

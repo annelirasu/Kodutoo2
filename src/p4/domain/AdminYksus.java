@@ -16,6 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -51,6 +54,8 @@ public class AdminYksus implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "riigi_admin_yksus_ID")
+    @NotNull
+    @Min(0)
     private Long id;
     
     //TODO - mis siin täpselt juhtub -EAGER kasutada ei saa
@@ -86,7 +91,9 @@ public class AdminYksus implements Serializable {
     private Date suletud;
     @Column(length = 20)
     private String kood;
+    
     @Column(length = 100)
+    @Size(min=2,max=40)  //valideerimise värk
     private String nimetus;
     @Column(length = 32000)
     private String kommentaar;
