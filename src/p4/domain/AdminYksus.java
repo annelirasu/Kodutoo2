@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,7 +53,7 @@ public class AdminYksus implements Serializable {
     @Column(name = "riigi_admin_yksus_ID")
     private Long id;
     
-    //TODO - mis siin täpselt juhtub 
+    //TODO - mis siin täpselt juhtub -EAGER kasutada ei saa
     @ManyToMany
     @JoinTable(
 	            name = "AdminAlluvus",

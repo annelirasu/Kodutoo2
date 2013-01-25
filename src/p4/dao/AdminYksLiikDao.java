@@ -22,26 +22,46 @@ public class AdminYksLiikDao {
     private EntityManager em;
 	
 	  @Transactional  //esialgseks katsetuseks
-	    public List<AdminYksLiikView> getAdmYksLiikAll(){
-	    	
-	    		
-		  AdminYksLiik ayl = em.find(AdminYksLiik.class, 1L);
-	    	
-	    	List <AdminYksLiikView> list = new ArrayList<AdminYksLiikView>();
-	    	//tegelikult tahaks sellist listi, kus on kõik baasi liikmed sees
-	    	lisaAYL(list,ayl);
-	    	return list;
-	    	
+	    public AdminYksLiikView getAdmYksLiikAll(){
+	    	 List <AdminYksLiik> liigid  = new ArrayList<AdminYksLiik>();
+		 TypedQuery<AdminYksLiik> query = em.createQuery("select a from AdminYksLiik a", AdminYksLiik.class);
+		  liigid.addAll(query.getResultList());
+	 	  	    	
+	       AdminYksLiikView adw = new AdminYksLiikView();
+	       adw.setYlemad(liigid); 
+	       return adw;	
 	    }
-	  //meetod esialgseks katsetuseks
-	  private void lisaAYL(List<AdminYksLiikView> list, AdminYksLiik ayl) {
+	  
+	  @Transactional  //küsime tagasi äsjasisestatud liigi
+	    public AdminYksLiik getCurrentByCode(String kood, String nimi, String komm){
+	    	
+		 TypedQuery<AdminYksLiik> query = em.createQuery("select a from AdminYksLiik a where a.kood='" + kood + "' AND a.nimetus='" + nimi + "' AND a.kommentaar='" + komm + "'", AdminYksLiik.class);
+				                          
+		 AdminYksLiik curr = query.getSingleResult();
+		 
+	       return curr;	
+	    }
+	  
+	  @Transactional  //küsime tagasi äsjasisestatud liigi
+	    public void  setCurrToSub(String Yl_id, AdminYksLiik alluv){
+	    	
+		   Long ylem_ID=Long.parseLong(Yl_id, 10);
+		   AdminYksLiik ylemus=aylById(ylem_ID); 
+				                          
+		    ylemus.getSubordinates().add(alluv);
+		 
+	    }
+	    @Transactional
+		public void setSubsToCurr(AdminYksLiik curr,
+				List<AdminYksLiik> loplikudAlluvad) {
+	    	Long currID=curr.getId();
+	    	AdminYksLiik ylemus=aylById(currID); 
+	    	for(AdminYksLiik alluv:loplikudAlluvad){
+	    		ylemus.getSubordinates().add(alluv);
+	    	}
 			
-		  AdminYksLiikView aylw = new AdminYksLiikView();
-			aylw.setNimetus(ayl.getNimetus());
-			aylw.setKood(ayl.getKood());
-			aylw.setKommentaar(ayl.getKommentaar());
-			list.add(aylw);
-	  }
+		}
+	  	  
 	  
 	  @Transactional  //ylemusteks võivad uuele liigle sobida k6ik
 	    public List<AdminYksLiik> getLiigid(){
@@ -82,7 +102,7 @@ public class AdminYksLiikDao {
 	    }
 	 
 	    //vormilt tagasi tulnud andmed töödeldakse, et moodustada baasi lisamiseks korralik objekt
-	    private AdminYksLiik createAdmYksLiik(String kood, String nimetus, String komm) {
+	    public AdminYksLiik createAdmYksLiik(String kood, String nimetus, String komm) {
 	        
 	        AdminYksLiik ayl = new AdminYksLiik();
 	        ayl.setKood(kood);
@@ -118,6 +138,7 @@ public class AdminYksLiikDao {
 	    	return ayl;
 	    	
 	    }
+
 	  
 
 }
