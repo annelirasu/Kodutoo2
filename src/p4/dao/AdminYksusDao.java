@@ -58,5 +58,23 @@ public class AdminYksusDao {
           AdminYksus ay = em.find(AdminYksus.class, id);
           return ay;
          }
+          
+          @Transactional  //esialgseks katsetuseks
+	   public void dropAdminYksusTable(){
+			
+		 List <AdminYksus> yd  = new ArrayList<AdminYksus>();
+		 TypedQuery<AdminYksus> query = em.createQuery("select a from AdminYksus a", AdminYksus.class);
+		 yd.addAll(query.getResultList());
+		 
+	     
+	     
+	     for (AdminYksus ay: yd){
+		  em.remove(ay);
+	     }
+		 
+		 
+		 
+	 
+	 }
     
 }

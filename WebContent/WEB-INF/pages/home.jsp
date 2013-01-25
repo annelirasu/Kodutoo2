@@ -18,9 +18,7 @@
         <sec:authorize ifAnyGranted="ROLE_USER, ROLE_ADMIN">
         <p><a href="tree"><spring:message code="link.createTestTypes"/></a><p>
     </sec:authorize>
-       <sec:authorize ifAnyGranted="ROLE_USER, ROLE_ADMIN">
-        <p><a href="vorm4"><spring:message code="link.createTestRegions"/></a><p>
-    </sec:authorize>
+    
     
        <sec:authorize ifAnyGranted="ROLE_USER, ROLE_ADMIN">
         <p><a href="aaRap"><spring:message code="link.aaRap"/></a><p>

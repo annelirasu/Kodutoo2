@@ -54,8 +54,6 @@ public class AdminYksus implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "riigi_admin_yksus_ID")
-    @NotNull
-    @Min(0)
     private Long id;
     
     //TODO - mis siin täpselt juhtub -EAGER kasutada ei saa

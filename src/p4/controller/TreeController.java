@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import p4.dao.*;
+import p4.domain.InsertTestAyData;
 import p4.domain.InsertTestData;
 import p4.view.*;
 
@@ -18,6 +19,10 @@ public class TreeController {
 	
     @Resource
     private AdminYksLiikDao aylDao;
+    @Resource
+    private InsertTestAyData itd;
+    @Resource
+    private AdminYksusDao ayDao;
     
     @Resource
     private InsertTestData insertTestData;
@@ -26,10 +31,11 @@ public class TreeController {
     public String personTree(ModelMap model) {
     	
     	//vanad minema
+        ayDao.dropAdminYksusTable();
     	aylDao.dropAdminYksLiikTable();
     	// otsast peale
     	insertTestData.doTheMagic();
-  
+        itd.insertData();
     	
     	AdminYksLiikView adw = aylDao.getAdmYksLiikAll();
     	model.addAttribute("adw",adw);    	

@@ -11,7 +11,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
+import javax.persistence.TypedQuery;
+import p4.dao.AdminYksLiikDao;
 
 
 
@@ -27,12 +30,12 @@ public class InsertTestAyData {
 	
 	@Transactional
         public void insertData() {
-            AdminYksus ay1=createAy("V145","Leisi vald","saarel",stod("2001-12-12"),stod("9999-12-31"),4);
-            AdminYksus ay2=createAy("V146","Orissaare vald","saarel",stod("2001-12-12"),stod("9999-12-31"),4);
-            AdminYksus ay3=createAy("M146","Harju maakond","suure rahvastikutihedusega",stod("2001-12-12"),stod("9999-12-31"),1);
-            AdminYksus ay4=createAy("L145","Kuressaare linn","saarel",stod("2001-12-12"),stod("9999-12-31"),2);
-            AdminYksus ay5=createAy("A145","Orissaare alev","saarel",stod("2001-12-12"),stod("9999-12-31"),3);
-            AdminYksus ay6=createAy("M145","Saare maakond","saarel",stod("2001-12-12"),stod("9999-12-31"),4);
+            AdminYksus ay1=createAy("V145","Leisi vald","saarel",stod("2001-12-12"),stod("9999-12-31"),"vald");
+            AdminYksus ay2=createAy("V146","Orissaare vald","saarel",stod("2001-12-12"),stod("9999-12-31"),"vald");
+            AdminYksus ay3=createAy("M146","Harju maakond","suure rahvastikutihedusega",stod("2001-12-12"),stod("9999-12-31"),"maakond");
+            AdminYksus ay4=createAy("L145","Kuressaare linn","saarel",stod("2001-12-12"),stod("9999-12-31"),"linn");
+            AdminYksus ay5=createAy("A145","Orissaare alev","saarel",stod("2001-12-12"),stod("9999-12-31"),"linnaosa");
+            AdminYksus ay6=createAy("M145","Saare maakond","saarel",stod("2001-12-12"),stod("9999-12-31"),"maakond");
             //System.out.println(ay1.getAdmykId());
            
             em.persist(ay1);
@@ -69,10 +72,13 @@ public class InsertTestAyData {
         
         
         //mk -1, linn -2 -rk -3 vald 4
-        private AdminYksus createAy(String kood,String nimi, String komm, Date alates,Date kuni,long liik_id){
+        private AdminYksus createAy(String kood,String nimi, String komm, Date alates,Date kuni,String liik_s){
         AdminYksus ay=new AdminYksus();
-        AdminYksLiik ayl = em.find(AdminYksLiik.class, liik_id);
-        ay.setAdmykId(ayl);
+        TypedQuery<AdminYksLiik> query = em.createQuery("select a from AdminYksLiik a where a.nimetus='"+liik_s+"'", AdminYksLiik.class);
+               List<AdminYksLiik> ayList=query.getResultList();
+           System.out.println("liik id" + ayList.get(0).getNimetus()+ayList.get(0).getId());    
+       // AdminYksLiik ayl = em.find(AdminYksLiik.class, liik_id);
+        ay.setAdmykId(ayList.get(0));
         ay.setAlates(alates);
         ay.setAvaja("R");
         ay.setAvatud(new Date());
@@ -84,6 +90,7 @@ public class InsertTestAyData {
         ay.setNimetus(nimi);
         ay.setSuletud(stod("9999-12-31"));
         ay.setSulgeja("-");
+        
              
         return ay;
         }
