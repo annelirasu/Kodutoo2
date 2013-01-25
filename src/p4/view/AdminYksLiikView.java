@@ -2,6 +2,7 @@ package p4.view;
 
 import java.util.List;
 import p4.domain.*;
+import javax.validation.Valid;
 
 public class AdminYksLiikView {
     //esialgseks katseks
@@ -31,6 +32,7 @@ public class AdminYksLiikView {
 	}
 
 	//uus, parasjagu loodav
+	@Valid
     private AdminYksLiik current;
     //rippmenyys, algab tyhjusega, sest ylemust pole tingimata tarvis
     private List<AdminYksLiik> ylemad;

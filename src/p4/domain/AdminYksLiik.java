@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.*;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 @Entity
@@ -21,12 +24,19 @@ public class AdminYksLiik implements Serializable {
 	@GeneratedValue
 	@Column(name = "admYksLiik_id")
 	private Long id;  
-        @Column(length = 32, nullable = false)
+	
+	@NotEmpty(message="Code must not be empty")
+	@Size(min = 1, max = 10)
 	private String kood; 
-        @Column(length = 50, nullable = false)
+    
+	@NotEmpty(message="Name must not be empty")
+	@Size(min = 1, max = 50)
 	private String nimetus;
-        @Column(length = 300, nullable = false)
+	
+	@NotEmpty(message="Comment must not be empty")
+	@Size(min = 1, max = 300)
 	private String kommentaar;
+	
         @Column(length = 50, nullable = false)
 	private String avaja;
         @Column(length = 12, nullable = false)
