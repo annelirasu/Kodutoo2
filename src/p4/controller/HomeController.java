@@ -26,6 +26,19 @@ public class HomeController {
 		return "home";
 	}
 
+	
+	@RequestMapping(value="/")
+	public String IndexPage(ModelMap model) {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		model.addAttribute("username", authentication.getName());
+
+		return "login";
+	}
+	
+	
+	
+	
         /*
          * väljakommenteeritud, selleks, et url-id ei kattuks
 	@RequestMapping(value="/loginfailed")

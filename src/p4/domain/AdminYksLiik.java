@@ -57,7 +57,7 @@ public class AdminYksLiik implements Serializable {
 	    private Collection<AdminYksLiik> subordinates;
 
            //seos liigi ja üksuse vahel
-           @OneToMany(mappedBy="admykId")
+           @OneToMany(mappedBy="admykId", orphanRemoval=true)
            private Collection<AdminYksus> aYs; 
            public Collection<AdminYksus> getAys() { return aYs; }
 

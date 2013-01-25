@@ -17,25 +17,22 @@ public class TreeController {
     //private PersonDao personDao;
 	
     @Resource
-    private AdminYksLiikDao adminYksLiikDao;
+    private AdminYksLiikDao aylDao;
     
     @Resource
     private InsertTestData insertTestData;
 
     @RequestMapping(value = "/tree")
     public String personTree(ModelMap model) {
-    	//peale testandmete sisestamist kaval välja kommenteerida
+    	
+    	//vanad minema
+    	aylDao.dropAdminYksLiikTable();
+    	// otsast peale
     	insertTestData.doTheMagic();
   
     	
-    	AdminYksLiikView adw = adminYksLiikDao.getAdmYksLiikAll();
-    	model.addAttribute("adw",adw);
-    	 
-    	
-    	
-    	//List<TreeNode> personRows= personDao.getPersonRows();
-    	//model.addAttribute("personRows", personRows);   	
-    	
+    	AdminYksLiikView adw = aylDao.getAdmYksLiikAll();
+    	model.addAttribute("adw",adw);    	
     	
         return "tree"; //tagastame puu nime, käivitamisel muuda URL http://localhost:8080/Kodutoo2/tree
     }

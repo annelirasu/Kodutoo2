@@ -11,17 +11,18 @@
   <http pattern="/static/**" security="none" />
 
   <http auto-config="true">
-     <!-- lülitame kogu security välja
+   
       <intercept-url pattern="/**" access="ROLE_USER, ROLE_ADMIN" />
-    -->
-    <!-- ja siis ainult oma vormil sisse -->
-    <intercept-url pattern="/aaRap" access="ROLE_ADMIN, ROLE_USER" />
+  
+    <!-- lülitan kogu security sisse 
+     
+    <intercept-url pattern="/aaRap" access="ROLE_ADMIN, ROLE_USER" />  -->
     <intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
-    <!-- siin /home asemel /aaRap -->
-    <form-login login-page="/login" default-target-url="/aaRap"
+    <!-- siin /aaRap asemel jälle /home -->
+    <form-login login-page="/login" default-target-url="/home"
       authentication-failure-url="/loginfailed" />
-
-    <logout logout-url="/logout" logout-success-url="/aaRap" />
+    <!-- siin /aaRap asemel jälle /home -->
+    <logout logout-url="/logout" logout-success-url="/home" />
     
   </http>
 
