@@ -25,15 +25,15 @@ public class AdminYksLiik implements Serializable {
 	@Column(name = "admYksLiik_id")
 	private Long id;  
 	
-	@NotEmpty(message="Code must not be empty")
+	@NotEmpty
 	@Size(min = 1, max = 10)
 	private String kood; 
     
-	@NotEmpty(message="Name must not be empty")
+	@NotEmpty
 	@Size(min = 1, max = 50)
 	private String nimetus;
 	
-	@NotEmpty(message="Comment must not be empty")
+	@NotEmpty
 	@Size(min = 1, max = 300)
 	private String kommentaar;
 	

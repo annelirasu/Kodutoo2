@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link href="<c:url value='/static/styles.css' />" type="text/css" rel="stylesheet">
 <title>Administratiivüksuste liigi redaktor</title>
 </head>
 <body>
@@ -19,15 +20,15 @@
 				<td bgcolor="silver">
 				<spring:message code="label.ayl.code" />
 				<form:input path="current.kood" value="${adw.current.kood}"/><br /> 
-				<form:errors path="current.kood" cssClass="errorblock" element="div" />
+				<form:errors path="current.kood" cssClass="error" element="div" />
 				
 				<spring:message code="label.ayl.name" /> 
 				<form:input path="current.nimetus" value="${adw.current.nimetus}"/><br />
-				<form:errors path="current.nimetus" cssClass="errorblock" element="div" />
+				<form:errors path="current.nimetus" cssClass="error" element="div" />
 				
 				 <spring:message code="label.ayl.comment" /> <br /> 
 				 <form:textarea path="current.kommentaar" value="${adw.current.kommentaar}" cols="30" rows="7"></form:textarea><br />
-				 <form:errors path="current.kommentaar" cssClass="errorblock" element="div" />
+				 <form:errors path="current.kommentaar" cssClass="error" element="div" />
 					
 					<spring:message code="label.ayl.superior" /> 
 					

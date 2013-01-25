@@ -37,24 +37,18 @@ public class AylKont {
 		AdminYksLiikView adw = getYlsAls();
 		adw.setCurrent(new AdminYksLiik());
 		model.addAttribute("adw", adw);
-		return "ayl"; // tagastame puu nime, käivitamisel muuda URL
-						// http://localhost:8080/Kodutoo2/ayl
+		return "ayl"; 
 	}
 
 	// meetod selleks, kui vajutatakse salvesta nuppu
 	@RequestMapping(value = "/ayl", method = RequestMethod.POST, params = "save_ayl")
 	public String salvestaAyl(
 			@Valid @ModelAttribute("adw") AdminYksLiikView adw, BindingResult result,
-			ModelMap model
-			) {
+			ModelMap model) {
 		if (result.hasErrors()) {
 			System.out.println("error "+result);
-//			model.addAttribute("adw", adw);
+
 			return "ayl";		
-		}
-				
-		if (!result.hasErrors()) {
-			model.addAttribute("message", "message.ok");			
 		}
 		// int alluvID;
 		// if (save_ayl_Sub != null) {
