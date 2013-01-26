@@ -102,7 +102,18 @@ public class AdminYksus implements Serializable {
     @Column(nullable = false)
     private Date kuni;
     
-    @ManyToOne
+    private String yl_id;
+    private String liik_id;
+    
+    public String getLiik_id() {
+		return liik_id;
+	}
+
+	public void setLiik_id(String liik_id) {
+		this.liik_id = liik_id;
+	}
+
+	@ManyToOne
      private AdminYksLiik admykId;
 
     public Long getId() {
@@ -318,6 +329,20 @@ public class AdminYksus implements Serializable {
      */
     public void setAlluvad(Collection<AdminYksus> alluvad) {
         this.alluvad = alluvad;
+    }
+
+    /**
+     * @return the yl_id
+     */
+    public String getYl_id() {
+        return yl_id;
+    }
+
+    /**
+     * @param yl_id the yl_id to set
+     */
+    public void setYl_id(String yl_id) {
+        this.yl_id = yl_id;
     }
 
     
