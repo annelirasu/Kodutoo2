@@ -3,6 +3,7 @@ package p4.dao;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -20,145 +21,201 @@ import p4.view.*;
 @Repository
 public class AdminYksLiikDao {
 
-    @PersistenceContext
-    private EntityManager em;
+	@PersistenceContext
+	private EntityManager em;
 
-    @Transactional  //esialgseks katsetuseks
-    public void dropAdminYksLiikTable() {
+	@Transactional
+	// esialgseks katsetuseks
+	public void dropAdminYksLiikTable() {
 
-        List<AdminYksLiik> liigid = new ArrayList<AdminYksLiik>();
-        TypedQuery<AdminYksLiik> query = em.createQuery("select a from AdminYksLiik a", AdminYksLiik.class);
-        liigid.addAll(query.getResultList());
+		List<AdminYksLiik> liigid = new ArrayList<AdminYksLiik>();
+		TypedQuery<AdminYksLiik> query = em.createQuery(
+				"select a from AdminYksLiik a", AdminYksLiik.class);
+		liigid.addAll(query.getResultList());
 
+		for (AdminYksLiik ayl : liigid) {
+			em.remove(ayl);
+		}
+	}
 
+	@Transactional
+	public List<AdminYksLiik> selectAll() {
+		List<AdminYksLiik> liigid = new ArrayList<AdminYksLiik>();
+		TypedQuery<AdminYksLiik> query = em.createQuery(
+				"select a from AdminYksLiik a", AdminYksLiik.class);
+		liigid.addAll(query.getResultList());
+		return liigid;
+	}
 
-        for (AdminYksLiik ayl : liigid) {
-            em.remove(ayl);
-        }
+	public AdminYksLiikView getAdmYksLiikAll() {
+		List<AdminYksLiik> liigid = selectAll();
+		AdminYksLiikView adw = new AdminYksLiikView();
+		adw.setYlemad(liigid);
+		return adw;
+	}
 
+	@Transactional
+	// küsime tagasi äsjasisestatud liigi
+	public AdminYksLiik getCurrentByCode(String kood, String nimi, String komm) {
 
+		TypedQuery<AdminYksLiik> query = em
+				.createQuery(
+						"select a from AdminYksLiik a where a.kood=? AND a.nimetus=? AND a.kommentaar=?",
+						AdminYksLiik.class);
+		query.setParameter(1, kood);
+		query.setParameter(2, nimi);
+		query.setParameter(3, komm);
+		AdminYksLiik curr = query.getSingleResult();
 
+		return curr;
+	}
 
-    }
+	@Transactional
+	// küsime tagasi äsjasisestatud liigi
+	public void setCurrToSub(String Yl_id, AdminYksLiik alluv) {
+		Long ylem_ID = Long.parseLong(Yl_id, 10);
+		AdminYksLiik ylemus = aylById(ylem_ID);
+		ylemus.getSubordinates().add(alluv);
+	}
 
-    @Transactional  //esialgseks katsetuseks
-    public AdminYksLiikView getAdmYksLiikAll() {
-        List<AdminYksLiik> liigid = new ArrayList<AdminYksLiik>();
-        TypedQuery<AdminYksLiik> query = em.createQuery("select a from AdminYksLiik a", AdminYksLiik.class);
-        liigid.addAll(query.getResultList());
+	@Transactional
+	public void setSubsToCurr(AdminYksLiik curr,
+			List<AdminYksLiik> loplikudAlluvad) {
+		Long currID = curr.getId();
+		AdminYksLiik ylemus = aylById(currID);
+		for (AdminYksLiik alluv : loplikudAlluvad) {
+			ylemus.getSubordinates().add(alluv);
+		}
 
-        AdminYksLiikView adw = new AdminYksLiikView();
-        adw.setYlemad(liigid);
-        return adw;
-    }
+	}
 
-    @Transactional  //küsime tagasi äsjasisestatud liigi
-    public AdminYksLiik getCurrentByCode(String kood, String nimi, String komm) {
+	@Transactional
+	// ylemusteks võivad uuele liigle sobida k6ik
+	public List<AdminYksLiik> getLiigid() {
 
-        TypedQuery<AdminYksLiik> query = em.createQuery("select a from AdminYksLiik a where a.kood=? AND a.nimetus=? AND a.kommentaar=?", AdminYksLiik.class);
-        query.setParameter(1, kood);
-        query.setParameter(2, nimi);
-        query.setParameter(3, komm);
-        AdminYksLiik curr = query.getSingleResult();
+		List<AdminYksLiik> liigid = new ArrayList<AdminYksLiik>();
+		// lisame kõige ette tyhja
+		liigid.add(new AdminYksLiik());
+		liigid.addAll(selectAll());
+		return liigid;
+	}
 
-        return curr;
-    }
+	// meetod tagastab kõik liigid, kes veel ei allu, ehk kes võivad olla ka
+	// potentsiaalsed alluvad, pole välistatud et on ülemad.
+	public List<AdminYksLiik> getAlluvad() {
+		// kõik liigid
+		List<AdminYksLiik> koik = selectAll();
+		// juba alluvad
+		List<AdminYksLiik> allujad = new ArrayList<AdminYksLiik>();
+		// potentsiaalsed alluvad
+		List<AdminYksLiik> alluvad = new ArrayList<AdminYksLiik>();
 
-    @Transactional  //küsime tagasi äsjasisestatud liigi
-    public void setCurrToSub(String Yl_id, AdminYksLiik alluv) {
+		for (AdminYksLiik adl : koik) {
+			allujad.addAll(adl.getSubordinates());
+		}
+		koik.removeAll(allujad);
+		alluvad.add(new AdminYksLiik());
+		alluvad.addAll(koik);
 
-        Long ylem_ID = Long.parseLong(Yl_id, 10);
-        AdminYksLiik ylemus = aylById(ylem_ID);
+		return alluvad;
+	}
 
-        ylemus.getSubordinates().add(alluv);
+	@Transactional
+	public void store(AdminYksLiik ayl) {
+		// eelnevalt tuleb moodustada korralik AdminYksLiik, sest vormilt tagasi
+		// saame praegu ainult osad andmed
+		AdminYksLiik lisatav = createAdmYksLiik(ayl.getKood(),
+				ayl.getNimetus(), ayl.getKommentaar());
+		em.merge(lisatav);
+	}
 
-    }
+	// vormilt tagasi tulnud andmed töödeldakse, et moodustada baasi lisamiseks
+	// korralik objekt
+	public AdminYksLiik createAdmYksLiik(String kood, String nimetus,
+			String komm) {
 
-    @Transactional
-    public void setSubsToCurr(AdminYksLiik curr,
-            List<AdminYksLiik> loplikudAlluvad) {
-        Long currID = curr.getId();
-        AdminYksLiik ylemus = aylById(currID);
-        for (AdminYksLiik alluv : loplikudAlluvad) {
-            ylemus.getSubordinates().add(alluv);
-        }
+		AdminYksLiik ayl = new AdminYksLiik();
+		ayl.setKood(kood);
+		ayl.setNimetus(nimetus);
+		ayl.setKommentaar(komm);
+		ayl.setAvaja("Anneli");// hardcoded
+		ayl.setAvatud(currDate());
+		ayl.setMuutja("PoleVeel");
+		ayl.setMuudetud("9999-01-01");
+		ayl.setSulgeja("pole");
+		ayl.setSuletud("9999-01-01");
 
-    }
+		System.out.println("Lisan " + nimetus);
 
-    @Transactional  //ylemusteks võivad uuele liigle sobida k6ik
-    public List<AdminYksLiik> getLiigid() {
+		return ayl;
+	}
 
-        List<AdminYksLiik> liigid = new ArrayList<AdminYksLiik>();
-        //lisame kõige ette tyhja
-        liigid.add(new AdminYksLiik());
-        TypedQuery<AdminYksLiik> query = em.createQuery("select a from AdminYksLiik a", AdminYksLiik.class);
-        liigid.addAll(query.getResultList());
-        return liigid;
-    }
+	private String currDate() {
 
-    public List<AdminYksLiik> getAlluvad() {
-        //kõik liigid
-        List<AdminYksLiik> koik = new ArrayList<AdminYksLiik>();
-        //juba alluvad
-        List<AdminYksLiik> allujad = new ArrayList<AdminYksLiik>();
-        //potentsiaalsed alluvad
-        List<AdminYksLiik> alluvad = new ArrayList<AdminYksLiik>();
+		Calendar jCal = Calendar.getInstance();
 
-        TypedQuery<AdminYksLiik> all = em.createQuery("select a from AdminYksLiik a", AdminYksLiik.class);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String date = sdf.format(jCal.getTime());
 
-        koik.addAll(all.getResultList());
-        for (AdminYksLiik adl : koik) {
-            allujad.addAll(adl.getSubordinates());
-        }
-        koik.removeAll(allujad);
-        alluvad.add(new AdminYksLiik());
-        alluvad.addAll(koik);
+		return date;
+	}
 
-        return alluvad;
-    }
+	@Transactional
+	// hangib vastavalt ID-le
+	public AdminYksLiik aylById(Long aylID) {
 
-    @Transactional
-    public void store(AdminYksLiik ayl) {
-        //eelnevalt tuleb  moodustada korralik AdminYksLiik, sest vormilt tagasi saame praegu ainult osad andmed  
-        AdminYksLiik lisatav = createAdmYksLiik(ayl.getKood(), ayl.getNimetus(), ayl.getKommentaar());
-        em.merge(lisatav);
-    }
+		AdminYksLiik ayl = em.find(AdminYksLiik.class, aylID);
 
-    //vormilt tagasi tulnud andmed töödeldakse, et moodustada baasi lisamiseks korralik objekt
-    public AdminYksLiik createAdmYksLiik(String kood, String nimetus, String komm) {
+		return ayl;
 
-        AdminYksLiik ayl = new AdminYksLiik();
-        ayl.setKood(kood);
-        ayl.setNimetus(nimetus);
-        ayl.setKommentaar(komm);
-        ayl.setAvaja("Anneli");// hardcoded
-        ayl.setAvatud(currDate());
-        ayl.setMuutja("PoleVeel");
-        ayl.setMuudetud("9999-01-01");
-        ayl.setSulgeja("pole");
-        ayl.setSuletud("9999-01-01");
+	}
 
-        System.out.println("Lisan " + nimetus);
+	public List<StruktSolm> struktforEach() {
 
-        return ayl;
-    }
+		List<StruktSolm> forEach = new ArrayList<StruktSolm>();
 
-    private String currDate() {
+		List<AdminYksLiik> potYlemused = getAlluvad(); // eksitav meetodi
+														// nimi,kuna tegemist
+														// võib olla
+														// potentsiaalsete
+														// alluvatega aga ka
+														// võimalike ülemustega
+		for (AdminYksLiik ayl : potYlemused) {
+			List<StruktSolm> solm = getAylRows(ayl);
+			forEach.addAll(solm);
+		}
 
-        Calendar jCal = Calendar.getInstance();
+		return forEach;
+	}
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(jCal.getTime());
+	@Transactional
+	public List<StruktSolm> getAylRows(AdminYksLiik ayl) { // see list on
+															// tegelikult ainult
+															// ühe alluva kohta
 
-        return date;
-    }
+		// me ei tea, ID-sid, küsime kõik välja
+		// on maakond ja välja joonistuvad maakond ja maakonna alluvad.
+		// samas maakond on ise riigi alluv?
 
-    @Transactional  //hangib vastavalt ID-le
-    public AdminYksLiik aylById(Long aylID) {
+		List<StruktSolm> list = new ArrayList<StruktSolm>();
 
-        AdminYksLiik ayl = em.find(AdminYksLiik.class, aylID);
+		dumpDataTo(list, ayl, 0);
 
-        return ayl;
+		return list;
+	}
 
-    }
+	private void dumpDataTo(List<StruktSolm> list, AdminYksLiik ayl, int tasand) {
+		StruktSolm solm = new StruktSolm();
+		solm.setTasand(tasand);
+		solm.setNimetus(ayl.getNimetus());
+		list.add(solm);
+
+		Collection<AdminYksLiik> aylAlluvad = ayl.getSubordinates();
+		if (aylAlluvad != null) {
+			for (AdminYksLiik alluv : aylAlluvad) {
+				dumpDataTo(list, alluv, tasand + 1);
+			}
+
+		}
+	}
 }

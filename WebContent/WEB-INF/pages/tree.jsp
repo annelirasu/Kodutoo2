@@ -7,7 +7,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 <body>
-  <jsp:include page="lang.jsp" />
+ 
+ <jsp:include page="lang.jsp" />
 
 <p><spring:message code="label.annouc"/></p>
 <table border="1">

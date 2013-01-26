@@ -38,11 +38,11 @@ public class InsertTestData {
         
          AdminYksLiikDao aylDao= new AdminYksLiikDao();
 
-        AdminYksLiik al1 = aylDao.createAdmYksLiik("mk", "maakond", "---");
+        AdminYksLiik al1 = aylDao.createAdmYksLiik("mk", "maakond", "allub ringkonnale");
         AdminYksLiik al2 = aylDao.createAdmYksLiik("ln", "linn", "allub maakonnale");
-        AdminYksLiik al3 = aylDao.createAdmYksLiik("rk", "ringkond", "on suurem \u00fcksus kui maakond");
-        AdminYksLiik al4 = aylDao.createAdmYksLiik("vl", "vald", "allub maakonnale");
-        AdminYksLiik al5 = aylDao.createAdmYksLiik("kl", "k\u00fcla", "allub vallale");
+        AdminYksLiik al3 = aylDao.createAdmYksLiik("rk", "ringkond", "---");
+        AdminYksLiik al4 = aylDao.createAdmYksLiik("vl", "vald", "ei allu kellelegi");
+        AdminYksLiik al5 = aylDao.createAdmYksLiik("kl", "k\u00fcla", "ei allu kellelegi");
         AdminYksLiik al6 = aylDao.createAdmYksLiik("lo", "linnaosa", "allub linnale");
 
         em.persist(al1); // Make an entity instance managed and persistent.
@@ -66,6 +66,7 @@ public class InsertTestData {
         al1.getSubordinates().add(al2);// maakonnale allub linn
         al3.getSubordinates().add(al1);// ringkonnale maakond
         al1.getSubordinates().add(al4); // maakonnale vald
+        al2.getSubordinates().add(al6);//linnale allub linn
     }
 
  

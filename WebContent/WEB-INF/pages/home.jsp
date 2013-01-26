@@ -27,6 +27,9 @@
     <sec:authorize ifAnyGranted="ROLE_ADMIN">
         <p><a href="admin/ayl"><spring:message code="link.typeEditor"/></a><p>
     </sec:authorize>
+           <sec:authorize ifAnyGranted="ROLE_USER, ROLE_ADMIN">
+        <p><a href="strukt"><spring:message code="link.strukt"/></a><p>
+    </sec:authorize>
 
     <a href="logout"><spring:message code="link.logout"/></a>
 
