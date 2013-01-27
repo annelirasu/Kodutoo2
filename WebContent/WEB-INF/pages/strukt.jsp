@@ -11,7 +11,7 @@
 </head>
 <body>
 	<h1>
-		<spring:message code="heading.home" />
+		<spring:message code="heading.strukt" />
 	</h1>
 
 	<jsp:include page="lang.jsp" />

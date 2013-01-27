@@ -13,7 +13,7 @@
 	<jsp:include page="lang.jsp" />
 	<h1><spring:message code="heading.ayl" /></h1>
 		<form:errors path="*" cssClass="errorblock" element="div" />
-	<form:form method="POST" action="ayl" name="ayl" modelAttribute="adw" commandName="adw">
+	<form:form method="POST" action="ayl" modelAttribute="adw" commandName="adw">
 	
 	<table width="400">
 		<tr>

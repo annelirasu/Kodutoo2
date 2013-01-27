@@ -102,7 +102,7 @@ public class AdminYksus implements Serializable {
     @Column(nullable = false)
     private Date kuni;
    
-    //kas neid on vaja? 
+    //kas neid on vaja? Ei pruugi vaja olla, kuna kasutasin vormilt andmete tagasikorjamiseks, samahästi võib neid hoida ka view objekti küljes.
     private String yl_id;
     private String liik_id;
     
