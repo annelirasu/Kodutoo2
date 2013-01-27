@@ -32,29 +32,27 @@ public class AdminYksusDao {
 	// leiab esimese taseme alluvad
 	@Transactional
 	public Collection<AdminYksus> getChilds(AdminYksus ay) {
-		/*
-		 * "select riigi_admin_yksus_id,nimetus from RIIGI_ADMIN_YKSUS Where( riigi_admin_yksus_id  in (select alluv_yksus_id  from ADMIN_ALLUVUS where ylemus_yksus_ID=?))"
-		 * ; TypedQuery<AdminYksus> query =
-		 * em.createQuery("select e from ADMINALLUVUS e where e.id = :id"
-		 * ,AdminYksus.class); query.setParameter("id", 4L); List<AdminYksus>
-		 * employees = query.getResultList();
-		 */
+		
 		// tiri kõik päringutega mällu
 		Long id = ay.getId();
-		System.out.println("enne päringut sisenes ay nimega" + ay.getId());
+		//System.out.println("enne päringut sisenes ay nimega" + ay.getId());
 		TypedQuery<AdminYksus> query = em
 				.createQuery("select a from AdminYksus a where a.id=" + id,
 						AdminYksus.class);
-		System.out.println("pärast päringut");
+		//System.out.println("pärast päringut");
 		List<AdminYksus> ayList = query.getResultList();
-		System.out.println("pärast listi");
+		//System.out.println("pärast listi");
 		Collection alluvad = ayList.get(0).getAlluvad();
-		if (alluvad == null) {
+		//see if peab olema sees muidu
+                //org.hibernate.LazyInitializationException: could not initialize proxy - no Session
+                if (alluvad == null) {
 			System.out.println("Allvaid pole " + ay.getNimetus());
 		} else {
 			System.out.println("Alluvid on " + alluvad.size() + " ayksusel "
 					+ ay.getNimetus());
 		}
+                
+                
 		return alluvad;
 
 	}
@@ -67,7 +65,6 @@ public class AdminYksusDao {
 	}
 
 	@Transactional
-	// esialgseks katsetuseks
 	public void dropAdminYksusTable() {
 
 		List<AdminYksus> yd = new ArrayList<AdminYksus>();

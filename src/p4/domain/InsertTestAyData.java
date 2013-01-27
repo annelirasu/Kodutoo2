@@ -59,7 +59,7 @@ public class InsertTestAyData {
         }
         
         private Date stod(String kp){
-        SimpleDateFormat sdf=new SimpleDateFormat("YYYY-MM-dd");
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
          try {
             return sdf.parse(kp);
         } catch (ParseException ex) {
