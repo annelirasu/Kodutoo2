@@ -23,9 +23,9 @@
                     
                     <td>
                         <select name="aYksus">
-                            <c:forEach var="each" items="${admYksused}">
+                            <c:forEach var="each" items="${viiv.liigid}">
 							<c:set var="selected" value="" />
-                                                        <c:if test="${each.id == vaYksus.id}">
+                                                        <c:if test="${each.id == viiv.valitudLiik.id}">
 								<c:set var="selected" value="selected=\"selected\"" />
 							</c:if>
 							<option value="${each.id}" ${selected}>${each.nimetus}</option>
@@ -39,18 +39,20 @@
                     </td> 
                     
                     <!-- esmalt ülemüksuse nimi -->
-                    
-                        <table border='1'><tr><td colspan='2'><h5>${vaYksus.nimetus}</h5></td></tr>
+                     <c:forEach var="each" items="${viiv.yksused}">
+                        <table border='1'><tr>
+                                <td colspan='2'><h5>${each.nimetus}</h5></td></tr>
                         <!-- seejärel alluvad -->
-                        <c:forEach var="each" items="${alluvad}">
+                        <c:forEach var="alluv" items="${each.alluvad}">
 					<tr>
-                                        <td> ${each.nimetus}</td>
-                                        <td><input type='submit' name='nupp${each.id}' value='<spring:message code="button.ayr.watch" />' /></td>
+                                        <td> ${alluv.nimetus}</td>
+                                        <td><input type='submit' name='nupp${alluv.id}' value='<spring:message code="button.ayr.watch" />' /></td>
                                         </tr>               
 							
-			 </c:forEach>
+			 
                         </table>
-
+                        </c:forEach>
+                    </c:forEach>
                 </tr>
             </table>
             

@@ -101,7 +101,8 @@ public class AdminYksus implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date kuni;
-    
+   
+    //kas neid on vaja? 
     private String yl_id;
     private String liik_id;
     
@@ -112,6 +113,8 @@ public class AdminYksus implements Serializable {
 	public void setLiik_id(String liik_id) {
 		this.liik_id = liik_id;
 	}
+        //kas vaja?
+        
 
 	@ManyToOne
      private AdminYksLiik admykId;

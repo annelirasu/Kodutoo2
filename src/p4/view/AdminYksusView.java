@@ -5,6 +5,7 @@
 package p4.view;
 
 import java.util.List;
+import p4.domain.AdminYksLiik;
 import p4.domain.AdminYksus;
 
 /**
@@ -15,6 +16,11 @@ public class AdminYksusView {
     private long id;
     private String name;
     private List<AdminYksus> yksused;
+    private List<AdminYksus> alluvad;
+    private List<AdminYksLiik> liigid;
+    private AdminYksLiik valitudLiik;
+    private String username;
+    
 
     /**
      * @return the id
@@ -56,6 +62,62 @@ public class AdminYksusView {
      */
     public void setYksused(List<AdminYksus> yksused) {
         this.yksused = yksused;
+    }
+
+    /**
+     * @return the alluvad
+     */
+    public List<AdminYksus> getAlluvad() {
+        return alluvad;
+    }
+
+    /**
+     * @param alluvad the alluvad to set
+     */
+    public void setAlluvad(List<AdminYksus> alluvad) {
+        this.alluvad = alluvad;
+    }
+
+    /**
+     * @return the liigid
+     */
+    public List<AdminYksLiik> getLiigid() {
+        return liigid;
+    }
+
+    /**
+     * @param liigid the liigid to set
+     */
+    public void setLiigid(List<AdminYksLiik> liigid) {
+        this.liigid = liigid;
+    }
+
+    /**
+     * @return the valitudLiik
+     */
+    public AdminYksLiik getValitudLiik() {
+        return valitudLiik;
+    }
+
+    /**
+     * @param valitudLiik the valitudLiik to set
+     */
+    public void setValitudLiik(AdminYksLiik valitudLiik) {
+        this.valitudLiik = valitudLiik;
+    }
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
     }
     
 }
