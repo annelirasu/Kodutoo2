@@ -47,6 +47,9 @@
       <user-service>
         <user name="reget" password="356a192b7913b04c54574d18c28d46e6395428ab"
           authorities="ROLE_USER" />
+            <user name="ann" password="744cb9a9fb3d5583744ea3ece9b4d819d90bdee2"
+          authorities="ROLE_USER" />
+          
         <user name="admin" password="356a192b7913b04c54574d18c28d46e6395428ab"
           authorities="ROLE_ADMIN" />
       </user-service>

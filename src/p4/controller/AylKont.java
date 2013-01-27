@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import other.AccessWatcher;
+
 import p4.dao.*;
 import p4.domain.*;
 import p4.view.*;
@@ -34,6 +36,11 @@ public class AylKont {
 
 	@RequestMapping(value = "/ayl")
 	public String Ayl(ModelMap model) {
+		
+		if (!AccessWatcher.userAuthorized("ROLE_ADMIN")) {
+			return "redirect:/home";
+		}
+		
 		AdminYksLiikView adw = getYlsAls();
 		adw.setCurrent(new AdminYksLiik());
 		model.addAttribute("adw", adw);
