@@ -48,7 +48,7 @@ public class AdminYksusDao {
                 if (alluvad == null) {
 			System.out.println("Allvaid pole " + ay.getNimetus());
 		} else {
-			System.out.println("Alluvid on " + alluvad.size() + " ayksusel "
+			System.out.println("Alluvaid on " + alluvad.size() + " ayksusel "
 					+ ay.getNimetus());
 		}
                 
@@ -63,7 +63,50 @@ public class AdminYksusDao {
 		AdminYksus ay = em.find(AdminYksus.class, id);
 		return ay;
 	}
+        
+        // anna adminüksused liigi id järgi
+	@Transactional
+	public List<AdminYksus> getYksusByLiikId(Long id) {
+            TypedQuery<AdminYksus> query = em.createQuery("select a from AdminYksus a",
+						AdminYksus.class);
+		//System.out.println("pärast päringut");
+		List<AdminYksus> ayList = query.getResultList();
+                ArrayList<AdminYksus> valitudAyList=new ArrayList<AdminYksus>();
+                System.out.println("aylisti suurus"+ayList.size());
+                for(int a=0;a<ayList.size();a++){
+                    AdminYksus ay=ayList.get(a);
+                    
+                if(ay.getAdmykId().getId()==id){
+                    System.out.println("Leiti"+ay.getNimetus());
+                    valitudAyList.add(ay);
+                }
+                }
+		return valitudAyList;
+	}
+        
+        
+        // anna adminüksused liigi id järgi
+	@Transactional
+	public List<AdminYksus> getYksusByLiik(AdminYksLiik ayl) {
+            TypedQuery<AdminYksus> query = em.createQuery("select a from AdminYksus a",
+						AdminYksus.class);
+		//System.out.println("pärast päringut");
+		List<AdminYksus> ayList = query.getResultList();
+                ArrayList<AdminYksus> valitudAyList=new ArrayList<AdminYksus>();
+                System.out.println("aylisti suurus"+ayList.size());
+                for(int a=0;a<ayList.size();a++){
+                    AdminYksus ay=ayList.get(a);
+                    
+                if(ay.getAdmykId().getId()==ayl.getId()){
+                    System.out.println("Leiti"+ay.getNimetus());
+                    valitudAyList.add(ay);
+                }
+                }
+		return valitudAyList;
+	}
+        
 
+        
 	@Transactional
 	public void dropAdminYksusTable() {
 

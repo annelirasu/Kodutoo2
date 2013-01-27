@@ -16,6 +16,7 @@ import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import p4.domain.AdminYksLiik;
+import p4.domain.AdminYksus;
 import p4.view.*;
 
 @Repository
@@ -217,5 +218,12 @@ public class AdminYksLiikDao {
 			}
 
 		}
+	}
+        
+        // anna adminüksuse liik id järgi
+	@Transactional
+	public AdminYksLiik getLiikById(Long id) {
+		AdminYksLiik ay = em.find(AdminYksLiik.class, id);
+		return ay;
 	}
 }
