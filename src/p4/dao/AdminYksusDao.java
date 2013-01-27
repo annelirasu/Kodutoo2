@@ -83,6 +83,28 @@ public class AdminYksusDao {
                 }
 		return valitudAyList;
 	}
+        
+        
+        // anna adminüksused liigi id järgi
+	@Transactional
+	public List<AdminYksus> getYksusByLiik(AdminYksLiik ayl) {
+            TypedQuery<AdminYksus> query = em.createQuery("select a from AdminYksus a",
+						AdminYksus.class);
+		//System.out.println("pärast päringut");
+		List<AdminYksus> ayList = query.getResultList();
+                ArrayList<AdminYksus> valitudAyList=new ArrayList<AdminYksus>();
+                System.out.println("aylisti suurus"+ayList.size());
+                for(int a=0;a<ayList.size();a++){
+                    AdminYksus ay=ayList.get(a);
+                    
+                if(ay.getAdmykId().getId()==ayl.getId()){
+                    System.out.println("Leiti"+ay.getNimetus());
+                    valitudAyList.add(ay);
+                }
+                }
+		return valitudAyList;
+	}
+        
 
         
 	@Transactional

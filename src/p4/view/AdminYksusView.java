@@ -19,6 +19,7 @@ public class AdminYksusView {
     private List<AdminYksus> alluvad;
     private List<AdminYksLiik> liigid;
     private AdminYksLiik valitudLiik;
+    private AdminYksus valitudAlluvYksus;
     private String username;
     
 
@@ -118,6 +119,20 @@ public class AdminYksusView {
      */
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    /**
+     * @return the valitudAlluvYksus
+     */
+    public AdminYksus getValitudAlluvYksus() {
+        return valitudAlluvYksus;
+    }
+
+    /**
+     * @param valitudAlluvYksus the valitudAlluvYksus to set
+     */
+    public void setValitudAlluvYksus(AdminYksus valitudAlluvYksus) {
+        this.valitudAlluvYksus = valitudAlluvYksus;
     }
     
 }

@@ -35,7 +35,7 @@
                         </select>
                     </td>
                     <td>
-                        <input type="submit" value='<spring:message code="button.ayr.refresh" />' />  
+                        <input type="submit" name="refresh" value='<spring:message code="button.ayr.refresh" />' />  
                     </td> 
                     
                     <!-- esmalt ülemüksuse nimi -->

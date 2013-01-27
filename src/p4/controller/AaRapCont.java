@@ -6,8 +6,10 @@ package p4.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.List;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
@@ -32,7 +34,7 @@ import p4.view.AdminYksusView;
  * @author reget.kalamees
  */
 @Controller
-//@SessionAttributes({"username","admYksused","alluvad","vaYksus"})
+@SessionAttributes("viiv")
 public class AaRapCont {
 
     @Resource
@@ -54,9 +56,9 @@ public class AaRapCont {
 
     private ModelMap sameStuff(String ay,ModelMap model){
      Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("username", authentication.getName());
+       // model.addAttribute("username", authentication.getName());
         AdminYksusView adminYksusView=new AdminYksusView();
-        adminYksusView.setUsername(ay);
+        adminYksusView.setUsername(authentication.getName());
         //liigid
         List<AdminYksLiik> liigid=adminYksLiikDao.selectAll();
         adminYksusView.setLiigid(liigid);
@@ -71,6 +73,7 @@ public class AaRapCont {
                 vaLiik=liigid.get(0);
                 System.out.println("valitud 0");
                 System.out.println("valitud esimene adminüksusliik " + vaLiik.getNimetus());
+            
             }
               else
             {  
@@ -82,7 +85,7 @@ public class AaRapCont {
         adminYksusView.setValitudLiik(vaLiik);
         //korja adminüksused liigiti
         
-        List<AdminYksus> ady = adminYksusDao.getYksusByLiikId(liik_id);
+        List<AdminYksus> ady = adminYksusDao.getYksusByLiik(vaLiik);
         System.out.println("peale getYksusedliigijargi");
        //model.addAttribute("admYksused", ady);
         adminYksusView.setYksused(ady);  
@@ -113,7 +116,7 @@ public class AaRapCont {
      return model;
     }
     //see saab vormilt andmed postiga
-    @RequestMapping(value = "/aaRap", method = RequestMethod.POST)
+    @RequestMapping(value = "/aaRap", method = RequestMethod.POST,params = "refresh")
     public String saveForm(@RequestParam("aYksus") String ay,@Valid AdminYksus ayks,
     BindingResult result, ModelMap model) {
         
@@ -135,6 +138,29 @@ public class AaRapCont {
         return "aaRap";
     }
 
+    
+    @RequestMapping(value = "/aaRap", method = RequestMethod.POST)
+	public String liiguRedaktorisse(
+			@ModelAttribute("viiv") AdminYksusView ayv, // sessioonist listid
+			HttpServletRequest request, ModelMap model) {
+
+
+		
+		Enumeration<String> params = request.getParameterNames();
+		while (params.hasMoreElements()) {
+			String paramName = params.nextElement();
+			if (paramName.startsWith("nupp")) {
+                           String sNuppId=paramName.substring(4); 
+                           ayv.setValitudAlluvYksus(adminYksusDao.getYksusById(Long.parseLong(sNuppId))); 
+			}
+		}
+		
+		model.addAttribute("viiv", ayv);
+                //lihtsalt return ay ei tööta
+		return "redirect:/admin/ay";
+	}
+    
+    
     
     @RequestMapping(value = "/loginfailed")
     public String loginerror(ModelMap model) {
